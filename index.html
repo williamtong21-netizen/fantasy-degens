@@ -281,6 +281,27 @@ table.mini tr.lucky td,table.mini tr.cursed td{background:transparent}
 .champ ol{margin:8px 0 0;padding-left:22px;font-family:var(--sans);font-size:14px}
 .champ ol li{padding:2px 0}
 .champ ol small{color:var(--muted)}
+/* head-to-head v2 */
+.opps{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;border-top:0}
+.opp{display:block;border:1px solid var(--rule);border-top:4px solid var(--ink);background:var(--paper-2);padding:10px 12px 8px}
+.opp .oh{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:6px;border-bottom:1px solid var(--rule);margin-bottom:4px}
+.opp .on{font-size:17px}
+.opp .rec{font-size:30px;grid-row:auto}
+.opp .det{display:grid;gap:0}
+.gr{display:grid;grid-template-columns:44px minmax(0,1fr) 28px auto;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dotted var(--rule);font-family:var(--sans);font-size:15px}
+.gr:last-child{border-bottom:0}
+.gr .sn{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.gr .gl{color:var(--ink);min-width:0}
+.gr .wl{font-weight:800;font-size:13px;text-align:center;border-radius:4px;padding:2px 0;color:#fff}
+.gr .wl.w{background:var(--green)}.gr .wl.l{background:var(--red)}
+.gr .sc{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600;color:var(--ink)}
+.opp .nx{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--red);padding-top:6px}
+.opp .none{font-family:var(--sans);font-size:14px;color:var(--muted);padding:6px 0}
+@media (max-width:520px){section{scroll-margin-top:150px}}
+/* header always dark, in both themes */
+header.site{background:#17140f;color:#f3eee2}
+.brand{color:#f3eee2}
+.edline{color:#bfb6a3}
 /* nav tabs v2 */
 header.site nav ul{flex-wrap:wrap;overflow:visible;gap:6px;padding:4px 16px 10px}
 header.site nav a{font-size:14px;font-weight:700;color:#fff;letter-spacing:.06em;background:#2e2922;border:1px solid #574e40;border-radius:999px;padding:8px 15px;border-bottom-width:1px}
@@ -634,10 +655,10 @@ const drawH2H = () => {
     return {o,m,w,l,nx};
   }).sort((x,y)=> (y.m.length-x.m.length) || ((y.w-y.l)-(x.w-x.l)) || T(x.o).localeCompare(T(y.o)));
   $("h2h").innerHTML = rows.map(({o,m,w,l,nx})=>{
-    const games = [...m].reverse().map(x=>`${gLabel(x)}: ${x.won?"W":"L"} ${f2(x.sa)}–${f2(x.sb)}`).join(" · ");
-    const det = [games, nx?`Next: Week ${nx}`:""].filter(Boolean).join(" · ") || "Haven't played yet";
+    const games = [...m].reverse().map(x=>`<div class="gr"><span class="sn">${x.s}</span><span class="gl">${esc(x.t || ("Week " + x.w))}</span><span class="wl ${x.won?"w":"l"}">${x.won?"W":"L"}</span><span class="sc">${f2(x.sa)} – ${f2(x.sb)}</span></div>`).join("");
+    const det = (games || `<div class="none">Haven't played yet</div>`) + (nx ? `<div class="nx">Next meeting: Week ${nx}</div>` : "");
     const rec = m.length ? `<div class="rec ${w>l?"w":w<l?"l":""}">${w}-${l}</div>` : `<div class="rec n">—</div>`;
-    return `<div class="opp"><div class="on">vs ${esc(T(o))}</div>${rec}<div class="det">${esc(det)}</div></div>`;
+    return `<div class="opp"><div class="oh"><div class="on">vs ${esc(T(o))}</div>${rec}</div><div class="det">${det}</div></div>`;
   }).join("");
 };
 h2hSel.addEventListener("change", ()=>{ try { localStorage.setItem("h2hTeam", h2hSel.value); } catch(e) {} drawH2H(); });
