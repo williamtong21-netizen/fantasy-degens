@@ -464,7 +464,7 @@ header.site nav a[aria-current="page"]{background:#ff6b5e;border-color:#ff6b5e;c
 <section id="standings">
   <div class="desk"><h2>Standings &amp; True Strength</h2><p id="stAsOf"></p></div>
   <div class="tbl"><table id="stTbl"></table></div>
-  <p class="key">All-play is the record a team would have if it played every other team every week. The gap between record and all-play measures luck. Bench pts = points left on the bench versus each team's best possible lineup.</p>
+  <p class="key">All-play is the record a team would have if it played every other team every week. The gap between record and all-play measures luck. Bench pts = points left on the bench versus each team's best possible lineup. Playoff % and Bye % come from 20,000 simulations of the rest of the regular season, using each team's actual scoring this year (not Yahoo's projections). Top 6 make the playoffs, top 2 get byes, ties go to points for.</p>
 </section>
 
 <section id="history">
@@ -557,6 +557,8 @@ const L = {
     games:[[1,"MNW",149.12,"COM",102.12,""],[1,"SDW",130.98,"PIG",121.06,""],[1,"CEM",102.22,"JUL",130.12,""],[1,"TTS",135.66,"GLK",113.02,""],[1,"CDL",173.88,"GRS",106.44,""],[2,"TTS",95.62,"GRS",165.64,""],[2,"MNW",131.94,"GLK",133.58,""],[2,"SDW",92.24,"CEM",174.3,""],[2,"PIG",192.1,"CDL",114.7,""],[2,"COM",121.7,"JUL",113.44,""],[3,"MNW",90.42,"JUL",129.14,""],[3,"CDL",171.92,"CEM",96.72,""],[3,"COM",114,"SDW",129.24,""],[3,"GRS",176.62,"GLK",127.86,""],[3,"TTS",134.52,"PIG",141.62,""],[4,"JUL",188.78,"GLK",174.9,""],[4,"MNW",117.62,"SDW",128.8,""],[4,"TTS",191.36,"CEM",110.58,""],[4,"COM",102.52,"CDL",177.9,""],[4,"PIG",92.08,"GRS",170.24,""],[5,"PIG",151.34,"GLK",151.62,""],[5,"GRS",166.52,"CEM",166.84,""],[5,"SDW",152.3,"JUL",121.38,""],[5,"MNW",111.32,"CDL",160.46,""],[5,"COM",99.44,"TTS",129.52,""],[6,"MNW",161.94,"TTS",162.4,""],[6,"PIG",129.22,"CEM",138.04,""],[6,"COM",165.06,"GRS",178.86,""],[6,"SDW",102.44,"GLK",108.28,""],[6,"CDL",111.74,"JUL",65.98,""],[7,"SDW",151.44,"CDL",171.82,""],[7,"MNW",138.78,"GRS",208.46,""],[7,"CEM",144.24,"GLK",176.04,""],[7,"TTS",133.24,"JUL",96.38,""],[7,"COM",141.06,"PIG",143.94,""],[8,"COM",146.02,"CEM",159.18,""],[8,"TTS",91.62,"SDW",186.86,""],[8,"CDL",136.38,"GLK",139.46,""],[8,"MNW",100.88,"PIG",149.8,""],[8,"GRS",130.58,"JUL",123.7,""],[9,"MNW",150.06,"CEM",126.7,""],[9,"SDW",129.48,"GRS",119.22,""],[9,"TTS",204.22,"CDL",162.04,""],[9,"PIG",151.16,"JUL",127.74,""],[9,"COM",113,"GLK",101.4,""],[10,"MNW",111.8,"COM",188.7,""],[10,"TTS",173.44,"GLK",176.22,""],[10,"CDL",192.82,"GRS",126.9,""],[10,"SDW",93.32,"PIG",111.04,""],[10,"CEM",130.02,"JUL",118.18,""],[11,"PIG",76.5,"CDL",165.9,""],[11,"COM",107.34,"JUL",117.72,""],[11,"MNW",148.24,"GLK",126.64,""],[11,"TTS",197.38,"GRS",118.5,""],[11,"SDW",93.8,"CEM",117.96,""],[12,"COM",149.26,"SDW",107.86,""],[12,"MNW",149.26,"JUL",146.66,""],[12,"TTS",130.92,"PIG",108.92,""],[12,"GRS",157.46,"GLK",224.18,""],[12,"CDL",172.62,"CEM",97.62,""],[13,"MNW",130.08,"SDW",111.9,""],[13,"TTS",139.42,"CEM",166.02,""],[13,"COM",154.7,"CDL",110.72,""],[13,"JUL",89.06,"GLK",154.14,""],[13,"PIG",62.34,"GRS",169.04,""],[14,"PIG",116.86,"GLK",120.1,""],[14,"SDW",98.6,"JUL",144.96,""],[14,"COM",158.24,"TTS",132.64,""],[14,"MNW",197.76,"CDL",139.34,""],[14,"GRS",139.38,"CEM",102.12,""],[15,"MNW",106.5,"GRS",204.94,"Quarterfinal"],[15,"TTS",135.32,"CEM",129.8,"Quarterfinal"],[16,"TTS",127.9,"CDL",225.48,"Semifinal"],[16,"GRS",173.68,"GLK",146.8,"Semifinal"],[16,"SDW",105.2,"PIG",122.86,"Consolation"],[16,"MNW",166.56,"CEM",143.5,"5th-place game"],[16,"COM",185.56,"JUL",153.26,"Consolation"],[17,"SDW",82.3,"JUL",128.12,"Consolation"],[17,"TTS",77.68,"GLK",106.72,"3rd-place game"],[17,"COM",176.18,"PIG",85.78,"Consolation"],[17,"CDL",146.46,"GRS",178.18,"Championship"]]}],
   // individual all-time records: [points, player, team key, season, week]
   records: {starts:[[65.4,"Jahmyr Gibbs","GLK",2025,12],[64.48,"Joe Burrow","MNW",2026,8],[63.68,"Josh Allen","TTS",2025,11],[59.6,"Jonathan Taylor","GRS",2025,10],[57.76,"Josh Allen","TTS",2025,1],[56.5,"Puka Nacua","JUL",2025,16],[55.6,"Kyle Pitts Sr.","GRS",2025,15],[55.6,"Derrick Henry","JUL",2025,17],[55.2,"Tetairoa McMillan","GRS",2026,4],[54.66,"Josh Allen","PIG",2026,1]], benched:[[62.46,"Drake Maye","GLK",2026,5],[58.96,"Jared Goff","PIG",2025,2],[53.7,"Joe Flacco","CEM",2025,9],[52.78,"Jared Goff","CEM",2026,2],[52.08,"Bo Nix","GRS",2025,15],[50.34,"Trevor Lawrence","JUL",2026,6],[49.98,"Patrick Mahomes","PIG",2026,2],[49.98,"Matthew Stafford","CDL",2026,2]]},
+  // remaining regular-season schedule (weeks 9-14); 6 teams make the playoffs, top 2 get byes
+  schedule: {"9":[["MNW","SDW"],["COM","TTS"],["CEM","CDL"],["PIG","GRS"],["GLK","JUL"]],"10":[["MNW","PIG"],["COM","GRS"],["CEM","TTS"],["CDL","GLK"],["SDW","JUL"]],"11":[["MNW","COM"],["CEM","GRS"],["TTS","GLK"],["PIG","SDW"],["CDL","JUL"]],"12":[["MNW","CEM"],["COM","SDW"],["TTS","CDL"],["PIG","JUL"],["GLK","GRS"]],"13":[["MNW","GLK"],["COM","PIG"],["CEM","SDW"],["TTS","JUL"],["CDL","GRS"]],"14":[["MNW","CDL"],["COM","JUL"],["CEM","PIG"],["TTS","GRS"],["GLK","SDW"]]},
   // [week, teamA, scoreA, teamB, scoreB]
   games: [
     [1,"PIG",218.86,"MNW",99.76],[1,"COM",115.92,"GRS",107.16],[1,"TTS",176.02,"CEM",141.16],[1,"GLK",129.66,"CDL",129.20],[1,"JUL",166.80,"SDW",162.00],
@@ -652,13 +654,27 @@ for (const w of weeks) {
 keys.forEach(k => S[k].bench = L.bench[k].reduce((x,y)=>x+y,0));
 const streak = r => { if(!r.length) return ""; const last=r[r.length-1]; let n=0; for(let i=r.length-1;i>=0&&r[i]===last;i--) n++; return last+n; };
 const order = [...keys].sort((a,b)=> (S[b].w-S[a].w) || (S[b].pf-S[a].pf));
+// playoff odds: 20,000 simulated seasons. Each team scores around its own average (blended 2:1 with the league average) with league-wide spread.
+const PO = (() => {
+  const all = L.games.flatMap(g=>[g[2],g[4]]), lm = all.reduce((a,b)=>a+b,0)/all.length, sd = Math.sqrt(all.reduce((a,b)=>a+(b-lm)**2,0)/all.length);
+  const mu = Object.fromEntries(keys.map(k => { const n = S[k].w+S[k].l; return [k, (S[k].pf + lm*n/2)/(n*1.5)]; }));
+  let seed = 20261103; const rnd = () => (seed = (seed*1664525 + 1013904223) % 4294967296) / 4294967296;
+  const gauss = () => Math.sqrt(-2*Math.log(rnd()||1e-9))*Math.cos(2*Math.PI*rnd());
+  const rest = Object.entries(L.schedule||{}).filter(([w]) => !weeks.includes(+w)).map(([,m])=>m);
+  const po = Object.fromEntries(keys.map(k=>[k,0])), bye = {...po}, N = 20000;
+  for (let i=0;i<N;i++) { const W = {}, P = {}; keys.forEach(k=>{W[k]=S[k].w;P[k]=S[k].pf;});
+    for (const wk of rest) for (const [a,b] of wk) { const sa = mu[a]+sd*gauss(), sb = mu[b]+sd*gauss(); P[a]+=sa; P[b]+=sb; sa>sb ? W[a]++ : W[b]++; }
+    const o = [...keys].sort((a,b)=>(W[b]-W[a])||(P[b]-P[a])); o.slice(0,6).forEach(k=>po[k]++); o.slice(0,2).forEach(k=>bye[k]++); }
+  const pct = v => { const p = v/N*100; return p>=99.95 ? "✓" : p<0.05 ? "–" : p>=99.5 ? ">99" : p<0.5 ? "<1" : Math.round(p)+""; };
+  return Object.fromEntries(keys.map(k=>[k,{po:pct(po[k]), bye:pct(bye[k])}]));
+})();
 $("stAsOf").textContent = L.asOf;
-$("stTbl").innerHTML = `<thead><tr><th>#</th><th style="text-align:left">Team</th><th>W-L</th><th>PF</th><th>PA</th><th>All-play</th><th>Luck</th><th>Bench pts</th><th>Strk</th></tr></thead><tbody>` +
+$("stTbl").innerHTML = `<thead><tr><th>#</th><th style="text-align:left">Team</th><th>W-L</th><th>Playoff %</th><th>Bye %</th><th>PF</th><th>PA</th><th>All-play</th><th>Luck</th><th>Bench pts</th><th>Strk</th></tr></thead><tbody>` +
   order.map((k,i)=>{
     const s=S[k], games=s.w+s.l, exp=s.apw/(s.apw+s.apl)*games, luck=s.w-exp;
     const pill = luck>0.6?`<span class="pill luck">Lucky +${luck.toFixed(1)}</span>`: luck<-0.6?`<span class="pill unlucky">Unlucky ${luck.toFixed(1)}</span>`:`<span class="pill fair">Fair</span>`;
     const cls = luck>0.6?"lucky":luck<-0.6?"cursed":"";
-    return `<tr class="${cls}"><td>${i+1}</td><td class="tm">${esc(T(k))}${L.teams[k].note?`<small>${esc(L.teams[k].note)}</small>`:""}</td><td>${s.w}-${s.l}</td><td>${f2(s.pf)}</td><td>${f2(s.pa)}</td><td>${s.apw}-${s.apl}</td><td>${pill}</td><td>${s.bench.toFixed(1)}</td><td>${streak(s.res)}</td></tr>`;
+    return `<tr class="${cls}"><td>${i+1}</td><td class="tm">${esc(T(k))}${L.teams[k].note?`<small>${esc(L.teams[k].note)}</small>`:""}</td><td>${s.w}-${s.l}</td><td><b>${PO[k].po}</b></td><td>${PO[k].bye}</td><td>${f2(s.pf)}</td><td>${f2(s.pa)}</td><td>${s.apw}-${s.apl}</td><td>${pill}</td><td>${s.bench.toFixed(1)}</td><td>${streak(s.res)}</td></tr>`;
   }).join("") + `</tbody>`;
 
 // head to head
