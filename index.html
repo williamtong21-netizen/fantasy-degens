@@ -302,6 +302,19 @@ table.mini tr.lucky td,table.mini tr.cursed td{background:transparent}
 header.site{background:#17140f;color:#f3eee2}
 .brand{color:#f3eee2}
 .edline{color:#bfb6a3}
+/* history season switch + records */
+.seasonbar{display:flex;gap:8px;margin:2px 0 10px}
+.seasonbar button{font-family:var(--display);font-size:22px;letter-spacing:.02em;border:2px solid var(--ink);background:var(--paper-2);color:var(--ink);padding:4px 16px;cursor:pointer;min-height:44px}
+.seasonbar button[aria-selected="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.rbook{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:18px}
+.rb{border:1px solid var(--rule);border-top:4px solid var(--ink);background:var(--paper-2);padding:10px 12px 6px;min-width:0}
+.rb h3{font-family:var(--display);font-weight:400;font-size:22px;text-transform:uppercase;margin:0 0 6px;line-height:1}
+.rr{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px dotted var(--rule);font-family:var(--sans);font-size:15px}
+.rr:last-child{border-bottom:0}
+.rr .n{font-weight:800;color:var(--muted)}
+.rr .t small{display:block;color:var(--muted);font-size:12.5px}
+.rr .v{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.ttl{color:var(--gold);font-weight:800}
 /* nav tabs v2 */
 header.site nav ul{flex-wrap:wrap;overflow:visible;gap:6px;padding:4px 16px 10px}
 header.site nav a{font-size:14px;font-weight:700;color:#fff;letter-spacing:.06em;background:#2e2922;border:1px solid #574e40;border-radius:999px;padding:8px 15px;border-bottom-width:1px}
@@ -327,6 +340,7 @@ header.site nav a[aria-current="page"]{background:#ff6b5e;border-color:#ff6b5e;c
     <li><a href="#scores">Scores</a></li>
     <li><a href="#standings">Standings</a></li>
     <li><a href="#history">History</a></li>
+    <li><a href="#records">Records</a></li>
     <li><a href="#rivalries">Rivalries</a></li>
     <li><a href="#trophies">Trophy Room</a></li>
     <li><a href="#share">Share</a></li>
@@ -454,7 +468,8 @@ header.site nav a[aria-current="page"]{background:#ff6b5e;border-color:#ff6b5e;c
 </section>
 
 <section id="history">
-  <div class="desk"><h2>The Archive</h2><p>Every week of the 2026 season</p></div>
+  <div class="desk"><h2>The Archive</h2><p>Every week, every season</p></div>
+  <div class="seasonbar" id="seasonPills" role="tablist" aria-label="Season"></div>
   <div class="wkbar">
     <button type="button" class="wkarrow" id="wkPrev" aria-label="Previous week">◀</button>
     <div class="wkpills" id="wkPills" role="tablist" aria-label="Week"></div>
@@ -470,13 +485,20 @@ header.site nav a[aria-current="page"]{background:#ff6b5e;border-color:#ff6b5e;c
     <div class="maincol">
       <div class="card"><div class="ch"><h2 id="hxResT">Results</h2></div><div id="hxRes"></div></div>
       <div class="card"><div class="ch"><h2 id="hxAwT">Awards</h2></div><div id="hxAw"></div></div>
-      <div class="card" id="hxEdCard"><div class="ch"><h2>From the Newsstand</h2></div><div class="strip" id="hxEd"></div><p class="key" id="hxEdNote"></p></div>
     </div>
     <aside class="side">
       <div class="card"><div class="ch"><h2 id="hxStT">Standings</h2></div><table class="mini" id="hxSt"></table></div>
       <div class="card"><div class="ch"><h2>Bench Report</h2></div><table class="mini" id="hxBench"></table><p class="key">Points each team left on its bench compared with its best possible lineup.</p></div>
     </aside>
   </div>
+</section>
+
+<section id="records">
+  <div class="desk"><h2>Record Book</h2><p>All-time · 2025 + 2026</p></div>
+  <h3 class="sub3">👔 Manager Careers</h3>
+  <div class="tbl"><table id="rcCareer"></table></div>
+  <p class="key">Regular-season record and points. Playoffs counted separately. Teams are listed by their 2026 names.</p>
+  <div class="rbook" id="rcBook"></div>
 </section>
 
 <section id="rivalries">
@@ -529,7 +551,12 @@ const L = {
     finish:["GRS","CDL","GLK","TTS","MNW","CEM","COM","PIG","JUL","SDW"],
     names:{GRS:"🎲 Gamble Play Shea",CDL:"💥 Tannerboy's Pop",GLK:"GIBB IT TO ME BABY",TTS:"TealTeamSix",MNW:"🛞 Father of Trell",CEM:"Just WIN Baby!!!!!",COM:"$3000 / $350 / $150",PIG:"Parker's Porkers",JUL:"Prime Time Julian",SDW:"San Diego Beached Whales"},
     reg:{GRS:"8-6",CDL:"9-5",GLK:"9-5",TTS:"8-6",MNW:"6-8",CEM:"7-7",COM:"6-8",PIG:"6-8",JUL:"5-9",SDW:"6-8"},
+    awards:{"1":[["MVP","Josh Allen, 57.76","TTS"],["Coach of the Week","💥 Tannerboy's Pop: 173.88, only 21.1 left on the bench","CDL"],["Bench Warmer","Prime Time Julian: 53.6 left on the bench (Keon Coleman 35.2)","JUL"],["Bonus Bomb","🛞 Father of Trell: +30 in bonuses","MNW"],["Heartbreak","Parker's Porkers: lost by 9.92","PIG"],["Bonus Robbery","Garrett Wilson 95 rec","SDW"],["Dud","Ja'Marr Chase, 4.60 (proj 20.4)","CEM"]],"2":[["MVP","Amon-Ra St. Brown, 49.20","PIG"],["Coach of the Week","🎲 Gamble Play Shea: 165.64, only 2.7 left on the bench","GRS"],["Bench Warmer","Prime Time Julian: 64.7 left on the bench (Rome Odunze 41.8), would have won","JUL"],["Bonus Bomb","🎲 Gamble Play Shea: +30 in bonuses","GRS"],["Heartbreak","🛞 Father of Trell: lost by 1.64","MNW"],["Bonus Robbery","Alvin Kamara 99 rush","PIG"],["Dud","Derrick Henry, 2.30 (proj 28.5)","JUL"]],"3":[["MVP","Jonathan Taylor, 42.80","GRS"],["Coach of the Week","💥 Tannerboy's Pop: 171.92, only 20.8 left on the bench","CDL"],["Bench Warmer","Parker's Porkers: 49.5 left on the bench (David Montgomery 39.4)","PIG"],["Bonus Bomb","🎲 Gamble Play Shea: +20 in bonuses","GRS"],["Heartbreak","TealTeamSix: lost by 7.10","TTS"],["Bonus Robbery","Jaxon Smith-Njigba 96 rec, Lamar Jackson 288 pass","GRS"],["Dud","CeeDee Lamb, 0.00 (proj 32.5)","MNW"]],"4":[["MVP","Matthew Stafford, 48.40","CDL"],["Coach of the Week","San Diego Beached Whales: 128.80, only 19.1 left on the bench","SDW"],["Bench Warmer","Parker's Porkers: 40.4 left on the bench (Jordan Addison 25.4)","PIG"],["Bonus Bomb","💥 Tannerboy's Pop: +25 in bonuses","CDL"],["Heartbreak","🛞 Father of Trell: lost by 11.18","MNW"],["Bonus Robbery","Quentin Johnston 98 rec, De'Von Achane 99 rush","JUL"],["Dud","Ladd McConkey, 2.10 (proj 14.4)","SDW"]],"5":[["MVP","Matthew Stafford, 46.56","CDL"],["Coach of the Week","GIBB IT TO ME BABY: 151.62, only 2.2 left on the bench","GLK"],["Bench Warmer","Prime Time Julian: 57.7 left on the bench (Jacory Croskey-Merritt 37), would have won","JUL"],["Bonus Bomb","San Diego Beached Whales: +20 in bonuses","SDW"],["Heartbreak","Parker's Porkers: lost by 0.28","PIG"],["Bonus Robbery","Marvin Harrison Jr. 98 rec, Deebo Samuel Sr. 96 rec, Courtland Sutton 99 rec","JUL"],["Dud","Jakobi Meyers, 7.20 (proj 18.9)","TTS"]],"6":[["MVP","Bijan Robinson, 45.80","GRS"],["Coach of the Week","🎲 Gamble Play Shea: 178.86, only 0.0 left on the bench","GRS"],["Bench Warmer","San Diego Beached Whales: 69.0 left on the bench (D'Andre Swift 35.5), would have won","SDW"],["Bonus Bomb","🎲 Gamble Play Shea: +30 in bonuses","GRS"],["Heartbreak","🛞 Father of Trell: lost by 0.46","MNW"],["Bonus Robbery","Chris Olave 98 rec, Jaylen Waddle 95 rec","COM"],["Dud","Puka Nacua, 4.80 (proj 20.1)","JUL"]],"7":[["MVP","Christian McCaffrey, 49.10","CDL"],["Coach of the Week","🎲 Gamble Play Shea: 208.46, only 7.3 left on the bench","GRS"],["Bench Warmer","$3000 / $350 / $150: 41.3 left on the bench (Justin Herbert 48.9), would have won","COM"],["Bonus Bomb","San Diego Beached Whales: +25 in bonuses","SDW"],["Heartbreak","$3000 / $350 / $150: lost by 2.88","COM"],["Bonus Robbery","Patrick Mahomes 286 pass, Chris Olave 98 rec, Trevor Lawrence 296 pass","GLK"],["Dud","Caleb Williams, 4.68 (proj 19.1)","JUL"]],"8":[["MVP","Jordan Love, 49.30","PIG"],["Coach of the Week","Parker's Porkers: 149.80, only 0.0 left on the bench","PIG"],["Bench Warmer","Just WIN Baby!!!!!: 31.5 left on the bench (Travis Kelce 21.9)","CEM"],["Bonus Bomb","San Diego Beached Whales: +20 in bonuses","SDW"],["Heartbreak","💥 Tannerboy's Pop: lost by 3.08","CDL"],["Bonus Robbery","Patrick Mahomes 299 pass, Michael Pittman Jr. 95 rec, Caleb Williams 285 pass","GLK"],["Dud","Baker Mayfield, 4.08 (proj 19.9)","CDL"]],"9":[["MVP","Brock Bowers, 53.30","MNW"],["Coach of the Week","San Diego Beached Whales: 129.48, only 0.0 left on the bench","SDW"],["Bench Warmer","Just WIN Baby!!!!!: 51.5 left on the bench (Joe Flacco 53.7), would have won","CEM"],["Bonus Bomb","TealTeamSix: +30 in bonuses","TTS"],["Heartbreak","🎲 Gamble Play Shea: lost by 10.26","GRS"],["Bonus Robbery","Amon-Ra St. Brown 97 rec, Puka Nacua 95 rec, Marvin Harrison Jr. 96 rec","PIG"],["Dud","Rome Odunze, 0.00 (proj 13.9)","JUL"]],"10":[["MVP","Jonathan Taylor, 59.60","GRS"],["Coach of the Week","$3000 / $350 / $150: 188.70, only 2.4 left on the bench","COM"],["Bench Warmer","Parker's Porkers: 39.5 left on the bench (Jared Goff 45.8)","PIG"],["Bonus Bomb","TealTeamSix: +35 in bonuses","TTS"],["Heartbreak","TealTeamSix: lost by 2.78","TTS"],["Bonus Robbery","Tyler Warren 99 rec","GLK"],["Dud","Puka Nacua, 17.40 (proj 32.3)","JUL"]],"11":[["MVP","Josh Allen, 63.68","TTS"],["Coach of the Week","🛞 Father of Trell: 148.24, only 0.0 left on the bench","MNW"],["Bench Warmer","$3000 / $350 / $150: 44.8 left on the bench (Dak Prescott 32.32), would have won","COM"],["Bonus Bomb","TealTeamSix: +45 in bonuses","TTS"],["Heartbreak","$3000 / $350 / $150: lost by 10.38","COM"],["Bonus Robbery","Chase Brown 99 rush, Bo Nix 295 pass","COM"],["Dud","Justin Herbert, 3.34 (proj 21.3)","COM"]],"12":[["MVP","Jahmyr Gibbs, 65.40","GLK"],["Coach of the Week","🛞 Father of Trell: 149.26, only 1.4 left on the bench","MNW"],["Bench Warmer","Parker's Porkers: 37.4 left on the bench (Khalil Shakir 27), would have won","PIG"],["Bonus Bomb","GIBB IT TO ME BABY: +35 in bonuses","GLK"],["Heartbreak","Prime Time Julian: lost by 2.60","JUL"],["Bonus Robbery","Drake Maye 294 pass, Puka Nacua 97 rec, Jalen Hurts 289 pass","MNW"],["Dud","Lamar Jackson, 7.22 (proj 24.1)","PIG"]],"13":[["MVP","A.J. Brown, 45.20","GRS"],["Coach of the Week","Just WIN Baby!!!!!: 166.02, only 0.0 left on the bench","CEM"],["Bench Warmer","Parker's Porkers: 47.8 left on the bench (Jordan Love 33.76)","PIG"],["Bonus Bomb","🎲 Gamble Play Shea: +35 in bonuses","GRS"],["Heartbreak","San Diego Beached Whales: lost by 18.18","SDW"],["Bonus Robbery","Nico Collins 98 rec","CDL"],["Dud","Amon-Ra St. Brown, 0.00 (proj 33.9)","PIG"]],"14":[["MVP","Michael Wilson, 47.20","MNW"],["Coach of the Week","🛞 Father of Trell: 197.76, only 0.0 left on the bench","MNW"],["Bench Warmer","TealTeamSix: 44.0 left on the bench (Tony Pollard 38.1), would have won","TTS"],["Bonus Bomb","$3000 / $350 / $150: +25 in bonuses","COM"],["Heartbreak","Parker's Porkers: lost by 3.24","PIG"],["Bonus Robbery","Jameson Williams 96 rec","TTS"],["Dud","Jalen Hurts, 0.40 (proj 21.3)","SDW"]],"15":[["MVP","Kyle Pitts Sr., 55.60","GRS"],["Coach of the Week","TealTeamSix: 135.32, only 30.5 left on the bench","TTS"],["Bench Warmer","🛞 Father of Trell: 45.3 left on the bench (Drake Maye 20.5)","MNW"],["Bonus Bomb","🎲 Gamble Play Shea: +20 in bonuses","GRS"],["Heartbreak","Just WIN Baby!!!!!: lost by 5.52","CEM"],["Bonus Robbery","Brock Purdy 295 pass","CEM"],["Dud","Joe Burrow, 5.50 (proj 23.0)","MNW"]],"16":[["MVP","Puka Nacua, 56.50","JUL"],["Coach of the Week","Parker's Porkers: 122.86, only 3.0 left on the bench","PIG"],["Bench Warmer","GIBB IT TO ME BABY: 47.6 left on the bench (Ashton Jeanty 41.8), would have won","GLK"],["Bonus Bomb","💥 Tannerboy's Pop: +45 in bonuses","CDL"],["Heartbreak","San Diego Beached Whales: lost by 17.66","SDW"],["Bonus Robbery","Brock Purdy 295 pass, Jaxon Smith-Njigba 96 rec, A.J. Brown 95 rec","CEM"],["Dud","Amon-Ra St. Brown, 9.40 (proj 34.7)","PIG"]],"17":[["MVP","Derrick Henry, 55.60","JUL"],["Coach of the Week","$3000 / $350 / $150: 176.18, only 5.8 left on the bench","COM"],["Bench Warmer","TealTeamSix: 38.5 left on the bench (Stefon Diggs 32.1), would have won","TTS"],["Bonus Bomb","$3000 / $350 / $150: +35 in bonuses","COM"],["Heartbreak","TealTeamSix: lost by 29.04","TTS"],["Dud","Puka Nacua, 15.70 (proj 36.5)","JUL"]]},
+    bench:{"CEM":[39.5,18.48,11.6,24.7,12.2,34.3,3.6,31.5,51.48,10.3,33.14,3.9,0,28.74,24.9,7.6],"JUL":[53.58,64.7,39.98,35.96,57.7,47,32.44,24.72,30.66,12.22,2.3,0,14.2,8.5,null,22.2,33.68],"MNW":[25.46,45.66,31,24.8,0,0,3,0,35.2,13.5,0,1.4,10.6,0,45.3,34],"COM":[20.3,46.38,26.8,13.2,29.64,6.18,41.34,29.46,14.3,2.4,44.78,10.1,4.1,10.3,null,16.3,5.8],"SDW":[31.24,33.7,21.7,19.1,30.4,68.96,19.3,20.8,0,14.38,0,7.9,9,38.9,null,17.7,16.96],"PIG":[10,28.46,49.5,40.44,25.8,11.9,8.2,0,13.3,39.46,7.56,37.44,47.82,16.5,null,3,16],"TTS":[28.1,13.6,7.2,37.1,43.3,7.1,15.1,15.3,33.4,4.6,1.6,12.6,28,44,30.5,32.6,38.5],"GLK":[8.2,18.3,0,27.6,2.2,27.9,29.1,18.2,23.9,6.8,11.3,29.5,15.2,6.4,null,47.6,38],"CDL":[21.1,28.5,20.8,25.6,37.8,40.8,27.36,11.9,0,6.78,5.82,21.5,23.64,11.3,null,4.4,26.68],"GRS":[16.1,2.7,29.9,24.7,18.8,0,7.3,3.9,3.5,10.3,8.6,30.9,30.3,14.28,40.74,10.4,24.4]},
+    recaps:{"1":{"hed":"Josh Allen Drops 57.76","dek":"Josh Allen scored 57.76 for TealTeamSix. 💥 Tannerboy's Pop had the week high (173.88) and $3000 / $350 / $150 the low (102.12). Closest game: San Diego Beached Whales over Parker's Porkers by 9.92."},"2":{"hed":"Parker's Porkers Hangs 192.10","dek":"Amon-Ra St. Brown scored 49.20 for Parker's Porkers. Parker's Porkers had the week high (192.10) and San Diego Beached Whales the low (92.24). Closest game: GIBB IT TO ME BABY over 🛞 Father of Trell by 1.64."},"3":{"hed":"Jonathan Taylor Drops 42.80","dek":"Jonathan Taylor scored 42.80 for 🎲 Gamble Play Shea. 🎲 Gamble Play Shea had the week high (176.62) and 🛞 Father of Trell the low (90.42). Closest game: Parker's Porkers over TealTeamSix by 7.10."},"4":{"hed":"TealTeamSix Hangs 191.36","dek":"Matthew Stafford scored 48.40 for 💥 Tannerboy's Pop. TealTeamSix had the week high (191.36) and Parker's Porkers the low (92.08). Closest game: San Diego Beached Whales over 🛞 Father of Trell by 11.18."},"5":{"hed":"Matthew Stafford Drops 46.56","dek":"Matthew Stafford scored 46.56 for 💥 Tannerboy's Pop. Just WIN Baby!!!!! had the week high (166.84) and $3000 / $350 / $150 the low (99.44). Closest game: GIBB IT TO ME BABY over Parker's Porkers by 0.28."},"6":{"hed":"Bijan Robinson Drops 45.80","dek":"Bijan Robinson scored 45.80 for 🎲 Gamble Play Shea. 🎲 Gamble Play Shea had the week high (178.86) and Prime Time Julian the low (65.98). Closest game: TealTeamSix over 🛞 Father of Trell by 0.46."},"7":{"hed":"🎲 Gamble Play Shea Hangs 208.46","dek":"Christian McCaffrey scored 49.10 for 💥 Tannerboy's Pop. 🎲 Gamble Play Shea had the week high (208.46) and Prime Time Julian the low (96.38). Closest game: Parker's Porkers over $3000 / $350 / $150 by 2.88."},"8":{"hed":"Jordan Love Drops 49.30","dek":"Jordan Love scored 49.30 for Parker's Porkers. San Diego Beached Whales had the week high (186.86) and TealTeamSix the low (91.62). Closest game: GIBB IT TO ME BABY over 💥 Tannerboy's Pop by 3.08."},"9":{"hed":"TealTeamSix Hangs 204.22","dek":"Brock Bowers scored 53.30 for 🛞 Father of Trell. TealTeamSix had the week high (204.22) and GIBB IT TO ME BABY the low (101.40). Closest game: San Diego Beached Whales over 🎲 Gamble Play Shea by 10.26."},"10":{"hed":"💥 Tannerboy's Pop Hangs 192.82","dek":"Jonathan Taylor scored 59.60 for 🎲 Gamble Play Shea. 💥 Tannerboy's Pop had the week high (192.82) and San Diego Beached Whales the low (93.32). Closest game: GIBB IT TO ME BABY over TealTeamSix by 2.78."},"11":{"hed":"TealTeamSix Hangs 197.38","dek":"Josh Allen scored 63.68 for TealTeamSix. TealTeamSix had the week high (197.38) and Parker's Porkers the low (76.50). Closest game: Prime Time Julian over $3000 / $350 / $150 by 10.38."},"12":{"hed":"GIBB IT TO ME BABY Hangs 224.18","dek":"Jahmyr Gibbs scored 65.40 for GIBB IT TO ME BABY. GIBB IT TO ME BABY had the week high (224.18) and Just WIN Baby!!!!! the low (97.62). Closest game: 🛞 Father of Trell over Prime Time Julian by 2.60."},"13":{"hed":"A.J. Brown Drops 45.20","dek":"A.J. Brown scored 45.20 for 🎲 Gamble Play Shea. 🎲 Gamble Play Shea had the week high (169.04) and Parker's Porkers the low (62.34). Closest game: 🛞 Father of Trell over San Diego Beached Whales by 18.18."},"14":{"hed":"🛞 Father of Trell Hangs 197.76","dek":"Michael Wilson scored 47.20 for 🛞 Father of Trell. 🛞 Father of Trell had the week high (197.76) and San Diego Beached Whales the low (98.60). Closest game: GIBB IT TO ME BABY over Parker's Porkers by 3.24."},"15":{"hed":"Quarterfinals: Shea Hangs 204.94","dek":"🎲 Gamble Play Shea put 204.94 on 🛞 Father of Trell behind Kyle Pitts' 55.60, and TealTeamSix edged Just WIN Baby!!!!! by 5.52. 💥 Tannerboy's Pop and GIBB IT TO ME BABY (both 9-5) had first-round byes."},"16":{"hed":"Semifinals: Tannerboy's Pop Drops 225.48","dek":"💥 Tannerboy's Pop put up 225.48, the highest playoff score, to knock out TealTeamSix. 🎲 Gamble Play Shea beat GIBB IT TO ME BABY 173.68–146.80 to reach the final, and 🛞 Father of Trell won the 5th-place game."},"17":{"hed":"🎲 Gamble Play Shea Wins the 2025 Title","dek":"🎲 Gamble Play Shea beat 💥 Tannerboy's Pop 178.18–146.46 in the championship behind Bijan Robinson's 49.90. GIBB IT TO ME BABY took 3rd over TealTeamSix."}},
     games:[[1,"MNW",149.12,"COM",102.12,""],[1,"SDW",130.98,"PIG",121.06,""],[1,"CEM",102.22,"JUL",130.12,""],[1,"TTS",135.66,"GLK",113.02,""],[1,"CDL",173.88,"GRS",106.44,""],[2,"TTS",95.62,"GRS",165.64,""],[2,"MNW",131.94,"GLK",133.58,""],[2,"SDW",92.24,"CEM",174.3,""],[2,"PIG",192.1,"CDL",114.7,""],[2,"COM",121.7,"JUL",113.44,""],[3,"MNW",90.42,"JUL",129.14,""],[3,"CDL",171.92,"CEM",96.72,""],[3,"COM",114,"SDW",129.24,""],[3,"GRS",176.62,"GLK",127.86,""],[3,"TTS",134.52,"PIG",141.62,""],[4,"JUL",188.78,"GLK",174.9,""],[4,"MNW",117.62,"SDW",128.8,""],[4,"TTS",191.36,"CEM",110.58,""],[4,"COM",102.52,"CDL",177.9,""],[4,"PIG",92.08,"GRS",170.24,""],[5,"PIG",151.34,"GLK",151.62,""],[5,"GRS",166.52,"CEM",166.84,""],[5,"SDW",152.3,"JUL",121.38,""],[5,"MNW",111.32,"CDL",160.46,""],[5,"COM",99.44,"TTS",129.52,""],[6,"MNW",161.94,"TTS",162.4,""],[6,"PIG",129.22,"CEM",138.04,""],[6,"COM",165.06,"GRS",178.86,""],[6,"SDW",102.44,"GLK",108.28,""],[6,"CDL",111.74,"JUL",65.98,""],[7,"SDW",151.44,"CDL",171.82,""],[7,"MNW",138.78,"GRS",208.46,""],[7,"CEM",144.24,"GLK",176.04,""],[7,"TTS",133.24,"JUL",96.38,""],[7,"COM",141.06,"PIG",143.94,""],[8,"COM",146.02,"CEM",159.18,""],[8,"TTS",91.62,"SDW",186.86,""],[8,"CDL",136.38,"GLK",139.46,""],[8,"MNW",100.88,"PIG",149.8,""],[8,"GRS",130.58,"JUL",123.7,""],[9,"MNW",150.06,"CEM",126.7,""],[9,"SDW",129.48,"GRS",119.22,""],[9,"TTS",204.22,"CDL",162.04,""],[9,"PIG",151.16,"JUL",127.74,""],[9,"COM",113,"GLK",101.4,""],[10,"MNW",111.8,"COM",188.7,""],[10,"TTS",173.44,"GLK",176.22,""],[10,"CDL",192.82,"GRS",126.9,""],[10,"SDW",93.32,"PIG",111.04,""],[10,"CEM",130.02,"JUL",118.18,""],[11,"PIG",76.5,"CDL",165.9,""],[11,"COM",107.34,"JUL",117.72,""],[11,"MNW",148.24,"GLK",126.64,""],[11,"TTS",197.38,"GRS",118.5,""],[11,"SDW",93.8,"CEM",117.96,""],[12,"COM",149.26,"SDW",107.86,""],[12,"MNW",149.26,"JUL",146.66,""],[12,"TTS",130.92,"PIG",108.92,""],[12,"GRS",157.46,"GLK",224.18,""],[12,"CDL",172.62,"CEM",97.62,""],[13,"MNW",130.08,"SDW",111.9,""],[13,"TTS",139.42,"CEM",166.02,""],[13,"COM",154.7,"CDL",110.72,""],[13,"JUL",89.06,"GLK",154.14,""],[13,"PIG",62.34,"GRS",169.04,""],[14,"PIG",116.86,"GLK",120.1,""],[14,"SDW",98.6,"JUL",144.96,""],[14,"COM",158.24,"TTS",132.64,""],[14,"MNW",197.76,"CDL",139.34,""],[14,"GRS",139.38,"CEM",102.12,""],[15,"MNW",106.5,"GRS",204.94,"Quarterfinal"],[15,"TTS",135.32,"CEM",129.8,"Quarterfinal"],[16,"TTS",127.9,"CDL",225.48,"Semifinal"],[16,"GRS",173.68,"GLK",146.8,"Semifinal"],[16,"SDW",105.2,"PIG",122.86,"Consolation"],[16,"MNW",166.56,"CEM",143.5,"5th-place game"],[16,"COM",185.56,"JUL",153.26,"Consolation"],[17,"SDW",82.3,"JUL",128.12,"Consolation"],[17,"TTS",77.68,"GLK",106.72,"3rd-place game"],[17,"COM",176.18,"PIG",85.78,"Consolation"],[17,"CDL",146.46,"GRS",178.18,"Championship"]]}],
+  // individual all-time records: [points, player, team key, season, week]
+  records: {starts:[[65.4,"Jahmyr Gibbs","GLK",2025,12],[64.48,"Joe Burrow","MNW",2026,8],[63.68,"Josh Allen","TTS",2025,11],[59.6,"Jonathan Taylor","GRS",2025,10],[57.76,"Josh Allen","TTS",2025,1],[56.5,"Puka Nacua","JUL",2025,16],[55.6,"Kyle Pitts Sr.","GRS",2025,15],[55.6,"Derrick Henry","JUL",2025,17],[55.2,"Tetairoa McMillan","GRS",2026,4],[54.66,"Josh Allen","PIG",2026,1]], benched:[[62.46,"Drake Maye","GLK",2026,5],[58.96,"Jared Goff","PIG",2025,2],[53.7,"Joe Flacco","CEM",2025,9],[52.78,"Jared Goff","CEM",2026,2],[52.08,"Bo Nix","GRS",2025,15],[50.34,"Trevor Lawrence","JUL",2026,6],[49.98,"Patrick Mahomes","PIG",2026,2],[49.98,"Matthew Stafford","CDL",2026,2]]},
   // [week, teamA, scoreA, teamB, scoreB]
   games: [
     [1,"PIG",218.86,"MNW",99.76],[1,"COM",115.92,"GRS",107.16],[1,"TTS",176.02,"CEM",141.16],[1,"GLK",129.66,"CDL",129.20],[1,"JUL",166.80,"SDW",162.00],
@@ -981,58 +1008,90 @@ $("homeAw").innerHTML = L.awards[awWk].slice(0,4).map(([aw,txt])=>`<div class="h
 $("homeBook").innerHTML = `Week ${BOOK.wk} lines are up: spreads, totals, props and parlays. Thursday matchups lock <b>${new Date(THU).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"})}</b>.`;
 
 /* ===================== HISTORY / ARCHIVE ===================== */
-const hxWeeks = [...weeks].sort((a,b)=>a-b);
-let hxWk = hxWeeks[hxWeeks.length-1];
-$("wkPills").innerHTML = hxWeeks.map(w=>`<button type="button" class="wkpill" role="tab" data-wk="${w}">Week ${w}</button>`).join("");
-function renderHistory(w) {
-  hxWk = w;
-  document.querySelectorAll(".wkpill").forEach(b => b.setAttribute("aria-selected", String(+b.dataset.wk === w)));
-  $("wkPrev").disabled = w === hxWeeks[0]; $("wkNext").disabled = w === hxWeeks[hxWeeks.length-1];
-  const wg = L.games.filter(g=>g[0]===w), rc = (L.recaps||{})[w] || {};
-  $("hxTag").textContent = `Week ${w}`;
+const SEASONS = [{y:2026, games:L.games.map(g=>[...g,""]), recaps:L.recaps||{}, awards:L.awards||{}, bench:L.bench||{}, nm:k=>T(k), reg:99, rounds:{}},
+  ...(L.past||[]).map(P=>({y:P.season, games:P.games, recaps:P.recaps||{}, awards:P.awards||{}, bench:P.bench||{}, nm:k=>P.names[k], reg:14, rounds:{15:"Quarterfinals",16:"Semifinals",17:"Championship"}}))];
+let hxS = SEASONS[0], hxWk = 0;
+const wksOf = S => [...new Set(S.games.map(g=>g[0]))].sort((a,b)=>a-b);
+const setHash = (y,w) => { try { history.replaceState(null,"","#history-"+(y===2026?"":y+"-")+w); } catch(err) {} };
+function renderHistory(w, y) {
+  if (y) hxS = SEASONS.find(s=>s.y===y) || hxS;
+  const ws = wksOf(hxS); if (!ws.includes(w)) w = ws[ws.length-1]; hxWk = w;
+  $("seasonPills").innerHTML = SEASONS.map(s=>`<button type="button" role="tab" data-y="${s.y}" aria-selected="${s===hxS}">${s.y}</button>`).join("");
+  $("wkPills").innerHTML = ws.map(x=>`<button type="button" class="wkpill" role="tab" data-wk="${x}" aria-selected="${x===w}">${hxS.rounds[x] ? hxS.rounds[x].replace("finals","").replace("Quarter","QF").replace("Semi","Semis").replace("Championship","Final") : "Week " + x}</button>`).join("");
+  const sel = $("wkPills").querySelector('[aria-selected="true"]'); if (sel) sel.scrollIntoView({block:"nearest", inline:"center"});
+  $("wkPrev").disabled = w === ws[0]; $("wkNext").disabled = w === ws[ws.length-1];
+  const N = hxS.nm, wg = hxS.games.filter(g=>g[0]===w), rc = hxS.recaps[w] || {};
+  $("hxTag").textContent = `${hxS.y} · ${hxS.rounds[w] || "Week " + w}`;
   $("hxHed").textContent = rc.hed || `Week ${w} in the books`;
   $("hxDek").textContent = rc.dek || "";
-  // superlatives
   const sc = wg.flatMap(([_,a,sa,b,sb])=>[[a,sa],[b,sb]]);
   const hi = sc.reduce((m,x)=>x[1]>m[1]?x:m), lo = sc.reduce((m,x)=>x[1]<m[1]?x:m);
   const mg = wg.map(([_,a,sa,b,sb])=>({w:sa>sb?a:b, l:sa>sb?b:a, m:Math.abs(sa-sb)}));
   const close = mg.reduce((m,x)=>x.m<m.m?x:m), blow = mg.reduce((m,x)=>x.m>m.m?x:m);
-  const bench = keys.map(k=>[k,(L.bench[k]||[])[w-1]]).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]);
+  const bench = keys.map(k=>[k,(hxS.bench[k]||[])[w-1]]).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]);
   $("hxSup").innerHTML = [
-    ["High score", f2(hi[1]), T(hi[0])], ["Low score", f2(lo[1]), T(lo[0])],
-    ["Closest game", `${close.m.toFixed(2)}`, `${T(close.w)} over ${T(close.l)}`], ["Biggest blowout", `+${blow.m.toFixed(2)}`, `${T(blow.w)} over ${T(blow.l)}`],
-    ...(bench.length?[["Most left on bench", bench[0][1].toFixed(1), T(bench[0][0])]]:[])
+    ["High score", f2(hi[1]), N(hi[0])], ["Low score", f2(lo[1]), N(lo[0])],
+    ["Closest game", close.m.toFixed(2), `${N(close.w)} over ${N(close.l)}`], ["Biggest blowout", "+" + blow.m.toFixed(2), `${N(blow.w)} over ${N(blow.l)}`],
+    ...(bench.length ? [["Most left on bench", bench[0][1].toFixed(1), N(bench[0][0])]] : [])
   ].map(([b,s,sp])=>`<div class="sup"><b>${esc(b)}</b><strong>${esc(s)}</strong><span>${esc(sp)}</span></div>`).join("");
-  // results
-  $("hxResT").textContent = `Week ${w} Results`;
-  $("hxRes").innerHTML = wg.map(([_,a,sa,b,sb]) => { const [wk,ws,lk,ls] = sa>sb?[a,sa,b,sb]:[b,sb,a,sa];
-    return `<div class="r2"><div class="r"><b>${esc(T(wk))}</b><span>${f2(ws)}</span></div><div class="r lo"><span>def. ${esc(T(lk))} by ${(ws-ls).toFixed(2)}</span><span>${f2(ls)}</span></div></div>`; }).join("");
-  // awards
-  $("hxAwT").textContent = `Week ${w} Awards`;
-  $("hxAw").innerHTML = (L.awards[w]||[]).map(([aw,txt])=>`<div class="haw"><b>${esc(aw)}</b>${esc(txt)}</div>`).join("") || `<p class="empty">No awards recorded for this week.</p>`;
-  // standings as of week w
+  $("hxResT").textContent = `${hxS.rounds[w] || "Week " + w} Results`;
+  $("hxRes").innerHTML = wg.map(([_,a,sa,b,sb,t]) => { const [wk,ws2,lk,ls] = sa>sb?[a,sa,b,sb]:[b,sb,a,sa];
+    return `<div class="r2"><div class="r"><b>${esc(N(wk))}</b><span>${f2(ws2)}</span></div><div class="r lo"><span>def. ${esc(N(lk))} by ${(ws2-ls).toFixed(2)}${t ? " · " + esc(t) : ""}</span><span>${f2(ls)}</span></div></div>`; }).join("");
+  $("hxAwT").textContent = `${hxS.rounds[w] || "Week " + w} Awards`;
+  $("hxAw").innerHTML = (hxS.awards[w]||[]).map(([aw,txt])=>`<div class="haw"><b>${esc(aw)}</b>${esc(txt)}</div>`).join("") || `<p class="empty">No awards recorded for this week.</p>`;
+  const upto = Math.min(w, hxS.reg);
   const St = Object.fromEntries(keys.map(k=>[k,{w:0,l:0,pf:0}]));
-  L.games.filter(g=>g[0]<=w).forEach(([_,a,sa,b,sb])=>{ St[a].pf+=sa; St[b].pf+=sb; if (sa>sb){St[a].w++;St[b].l++;} else {St[b].w++;St[a].l++;} });
+  hxS.games.filter(g=>g[0]<=upto && !g[5]).forEach(([_,a,sa,b,sb])=>{ St[a].pf+=sa; St[b].pf+=sb; if (sa>sb){St[a].w++;St[b].l++;} else {St[b].w++;St[a].l++;} });
   const ord = [...keys].sort((a,b)=>(St[b].w-St[a].w)||(St[b].pf-St[a].pf));
-  $("hxStT").textContent = `Standings after Week ${w}`;
-  $("hxSt").innerHTML = `<thead><tr><th>#</th><th style="text-align:left">Team</th><th>W-L</th><th>PF</th></tr></thead><tbody>` + ord.map((k,i)=>`<tr><td>${i+1}</td><td class="tm">${esc(T(k))}</td><td>${St[k].w}-${St[k].l}</td><td>${St[k].pf.toFixed(1)}</td></tr>`).join("") + `</tbody>`;
-  $("hxBench").innerHTML = `<thead><tr><th style="text-align:left">Team</th><th>Left on bench</th></tr></thead><tbody>` + bench.map(([k,v])=>`<tr><td class="tm">${esc(T(k))}</td><td>${v.toFixed(1)}</td></tr>`).join("") + `</tbody>`;
-  // editions
-  const ed = (L.editions||{})[w];
-  $("hxEdCard").hidden = !ed;
-  if (ed) { const imgs = [...(ed.times||[]).map((s,i)=>[s,(ed.timesLabels||[])[i]||"Degen Times"]), ...(ed.book||[]).map((s,i)=>[s,(ed.bookLabels||[])[i]||"DegenBook"])];
-    $("hxEd").innerHTML = imgs.map(([s,l],i)=>`<a href="${s}" target="_blank" rel="noopener"><img src="${s}" alt="${esc(l)}" loading="lazy"><small>${i+1}. ${esc(l)}</small></a>`).join("");
-    $("hxEdNote").textContent = ed.label || ""; }
+  $("hxStT").textContent = w > hxS.reg ? "Final Regular-Season Standings" : `Standings after Week ${w}`;
+  $("hxSt").innerHTML = `<thead><tr><th>#</th><th style="text-align:left">Team</th><th>W-L</th><th>PF</th></tr></thead><tbody>` + ord.map((k,i)=>`<tr><td>${i+1}</td><td class="tm">${esc(N(k))}</td><td>${St[k].w}-${St[k].l}</td><td>${St[k].pf.toFixed(1)}</td></tr>`).join("") + `</tbody>`;
+  $("hxBench").innerHTML = bench.length ? `<thead><tr><th style="text-align:left">Team</th><th>Left on bench</th></tr></thead><tbody>` + bench.map(([k,v])=>`<tr><td class="tm">${esc(N(k))}</td><td>${v.toFixed(1)}</td></tr>`).join("") + `</tbody>` : `<tbody><tr><td class="empty">No bench data for this week.</td></tr></tbody>`;
 }
-$("wkPills").addEventListener("click", e => { const b = e.target.closest(".wkpill"); if (!b) return; const w = +b.dataset.wk; try { history.replaceState(null,"","#history-"+w); } catch(err) {} renderHistory(w); });
-$("wkPrev").addEventListener("click", ()=>{ const i = hxWeeks.indexOf(hxWk); if (i>0) { try { history.replaceState(null,"","#history-"+hxWeeks[i-1]); } catch(err) {} renderHistory(hxWeeks[i-1]); } });
-$("wkNext").addEventListener("click", ()=>{ const i = hxWeeks.indexOf(hxWk); if (i<hxWeeks.length-1) { try { history.replaceState(null,"","#history-"+hxWeeks[i+1]); } catch(err) {} renderHistory(hxWeeks[i+1]); } });
-renderHistory(hxWk);
+$("seasonPills").addEventListener("click", e => { const b = e.target.closest("button[data-y]"); if (!b) return; const y = +b.dataset.y; const S = SEASONS.find(s=>s.y===y); const w = wksOf(S).slice(-1)[0]; setHash(y,w); renderHistory(w, y); });
+$("wkPills").addEventListener("click", e => { const b = e.target.closest(".wkpill"); if (!b) return; const w = +b.dataset.wk; setHash(hxS.y,w); renderHistory(w); });
+$("wkPrev").addEventListener("click", ()=>{ const ws = wksOf(hxS), i = ws.indexOf(hxWk); if (i>0) { setHash(hxS.y,ws[i-1]); renderHistory(ws[i-1]); } });
+$("wkNext").addEventListener("click", ()=>{ const ws = wksOf(hxS), i = ws.indexOf(hxWk); if (i<ws.length-1) { setHash(hxS.y,ws[i+1]); renderHistory(ws[i+1]); } });
+renderHistory(wksOf(SEASONS[0]).slice(-1)[0], 2026);
+
+/* ===================== RECORD BOOK ===================== */
+{
+  const ALL = SEASONS.flatMap(S=>S.games.map(([w,a,sa,b,sb,t])=>({S,y:S.y,w,a,sa,b,sb,t})));
+  const when = x => `${x.y} ${x.t && x.t!=="Consolation" ? x.t : "Week " + x.w}`;
+  const tName = (S,k) => S.y===2026 ? T(k) : `${S.nm(k)}`;
+  const now = (S,k) => S.y===2026 || S.nm(k)===T(k) ? "" : ` (now ${T(k)})`;
+  const teamScores = ALL.flatMap(x=>[{x,k:x.a,s:x.sa,o:x.sb},{x,k:x.b,s:x.sb,o:x.sa}]);
+  const row = (i,title,sub,val) => `<div class="rr"><span class="n">${i+1}</span><span class="t">${esc(title)}<small>${esc(sub)}</small></span><span class="v">${esc(val)}</span></div>`;
+  const card = (title, rows) => `<div class="rb"><h3>${title}</h3>${rows.join("")}</div>`;
+  const hiS = [...teamScores].sort((p,q)=>q.s-p.s).slice(0,5).map((e,i)=>row(i, tName(e.x.S,e.k), when(e.x) + now(e.x.S,e.k), f2(e.s)));
+  const loS = [...teamScores].sort((p,q)=>p.s-q.s).slice(0,5).map((e,i)=>row(i, tName(e.x.S,e.k), when(e.x) + now(e.x.S,e.k), f2(e.s)));
+  const mgs = ALL.map(x=>({x, m:Math.abs(x.sa-x.sb), w:x.sa>x.sb?x.a:x.b, l:x.sa>x.sb?x.b:x.a}));
+  const blow = [...mgs].sort((p,q)=>q.m-p.m).slice(0,5).map((e,i)=>row(i, `${tName(e.x.S,e.w)} over ${tName(e.x.S,e.l)}`, when(e.x), "+" + e.m.toFixed(2)));
+  const close = [...mgs].sort((p,q)=>p.m-q.m).slice(0,5).map((e,i)=>row(i, `${tName(e.x.S,e.w)} over ${tName(e.x.S,e.l)}`, when(e.x), e.m.toFixed(2)));
+  const pl = (arr) => arr.map(([p,n,k,y,w],i)=>{ const S = SEASONS.find(s=>s.y===y); return row(i, n, `${tName(S,k)} · ${y} Week ${w}`, f2(p)); });
+  const benchW = SEASONS.flatMap(S=>keys.flatMap(k=>(S.bench[k]||[]).map((v,i)=>({S,k,w:i+1,v})).filter(e=>e.v!=null))).sort((p,q)=>q.v-p.v).slice(0,5)
+    .map((e,i)=>row(i, tName(e.S,e.k), `${e.S.y} Week ${e.w}` + now(e.S,e.k), e.v.toFixed(1)));
+  const streaks = [];
+  for (const S of SEASONS) for (const k of keys) { let cur=0, best=0;
+    for (const [w,a,sa,b,sb,t] of S.games.filter(g=>!g[5]).sort((p,q)=>p[0]-q[0])) { if (a!==k && b!==k) continue; const won = (a===k) === (sa>sb); cur = won ? cur+1 : 0; best = Math.max(best,cur); }
+    if (best) streaks.push({S,k,best}); }
+  const strk = streaks.sort((p,q)=>q.best-p.best).slice(0,5).map((e,i)=>row(i, tName(e.S,e.k), `${e.S.y} regular season` + now(e.S,e.k), e.best + " W"));
+  $("rcBook").innerHTML = [card("🔥 Highest Scores", hiS), card("🧊 Lowest Scores", loS), card("💥 Biggest Blowouts", blow), card("😬 Closest Games", close),
+    card("⭐ Best Individual Games", pl(L.records.starts)), card("🪑 Best Games on the Bench", pl(L.records.benched)), card("🛋️ Most Left on the Bench", benchW), card("📈 Longest Win Streaks", strk)].join("");
+  const C = Object.fromEntries(keys.map(k=>[k,{w:0,l:0,pf:0,g:0,pw:0,pl:0,titles:0,apps:0,best:null}]));
+  for (const x of ALL) { if (x.t==="Consolation") continue;
+    for (const [k,s,o] of [[x.a,x.sa,x.sb],[x.b,x.sb,x.sa]]) { const c=C[k]; if (!x.t) { c.g++; c.pf+=s; s>o?c.w++:c.l++; } else { s>o?c.pw++:c.pl++; } } }
+  for (const P of (L.past||[])) { C[P.champ].titles++; P.finish.slice(0,6).forEach(k=>C[k].apps++); P.finish.forEach((k,i)=>{ if (C[k].best===null || i+1<C[k].best) C[k].best=i+1; }); }
+  const ord2 = [...keys].sort((a,b)=>(C[b].titles-C[a].titles)||((C[b].w/(C[b].w+C[b].l))-(C[a].w/(C[a].w+C[a].l)))||(C[b].pf-C[a].pf));
+  const sfx = n => n===1?"1st":n===2?"2nd":n===3?"3rd":n+"th";
+  $("rcCareer").innerHTML = `<thead><tr><th>#</th><th style="text-align:left">Manager's team</th><th>Titles</th><th>W-L</th><th>Win %</th><th>PF / game</th><th>Playoffs</th><th>Best finish</th></tr></thead><tbody>` +
+    ord2.map((k,i)=>{ const c=C[k]; return `<tr><td>${i+1}</td><td class="tm">${esc(T(k))}</td><td class="${c.titles?"ttl":""}">${c.titles?"🏆".repeat(c.titles):"–"}</td><td>${c.w}-${c.l}</td><td>${(c.w/(c.w+c.l)*100).toFixed(1)}</td><td>${(c.pf/c.g).toFixed(1)}</td><td>${c.apps ? c.pw+"-"+c.pl : "–"}</td><td>${c.best ? sfx(c.best) : "–"}</td></tr>`; }).join("") + `</tbody>`;
+}
+
 /* ===================== PAGES (one section at a time) ===================== */
 const PAGES = [...document.querySelectorAll(".wrap > section")].map(s=>s.id);
 const showPage = (id, scroll) => {
   id = ({week:"home", results:"scores"})[id] || id;
-  const hm = /^history-(\d+)$/.exec(id || ""); if (hm) { id = "history"; if (hxWeeks.includes(+hm[1])) renderHistory(+hm[1]); }
+  const hm = /^history-(?:(\d{4})-)?(\d+)$/.exec(id || ""); if (hm) { id = "history"; renderHistory(+hm[2], hm[1] ? +hm[1] : 2026); }
   if (!PAGES.includes(id) || id === "bet") id = "home";
   document.querySelectorAll(".wrap > section").forEach(s => { s.hidden = s.id !== id; });
   document.querySelectorAll("nav a").forEach(a => { if (a.getAttribute("href") === "#"+id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
@@ -1041,7 +1100,7 @@ const showPage = (id, scroll) => {
 };
 document.addEventListener("click", e => {
   const a = e.target.closest('a[href^="#"]'); if (!a) return;
-  let id = a.getAttribute("href").slice(1); id = ({week:"home", results:"scores"})[id] || id; if (!PAGES.includes(id) && !/^history-\d+$/.test(id)) return;
+  let id = a.getAttribute("href").slice(1); id = ({week:"home", results:"scores"})[id] || id; if (!PAGES.includes(id) && !/^history-(\d{4}-)?\d+$/.test(id)) return;
   e.preventDefault();
   try { history.replaceState(null, "", "#"+id); } catch(err) {}
   showPage(id, true);
