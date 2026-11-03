@@ -666,7 +666,11 @@ const L = {
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const T = k => L.teams[k].n;
+const CUR = L.season || 2026;
+// managers who left keep their history under their last team name; new managers just have no history yet
+const T = k => L.teams[k] ? L.teams[k].n : ((L.past||[]).find(P=>P.names[k]) || {names:{[k]:k}}).names[k];
+const isFormer = k => !L.teams[k];
+const EVERY = [...new Set([...Object.keys(L.teams), ...(L.past||[]).flatMap(P=>Object.keys(P.names))])];
 const f2 = n => n.toFixed(2);
 
 // header + this week
@@ -728,7 +732,7 @@ const addH = (s,w,a,sa,b,sb,t) => {
   (H[b]=H[b]||{})[a]=(H[b][a]||[]).concat({s,w,t,won:sb>sa,sa:sb,sb:sa});
 };
 for (const P of (L.past||[])) for (const [w,a,sa,b,sb,t] of P.games) if (t !== "Consolation") addH(P.season,w,a,sa,b,sb,t);
-for (const [w,a,sa,b,sb] of L.games) addH(2026,w,a,sa,b,sb,"");
+for (const [w,a,sa,b,sb] of L.games) addH(CUR,w,a,sa,b,sb,"");
 const gLabel = x => `${x.s} ${x.t || ("Wk " + x.w)}`;
 const next = {}; L.upcoming.forEach(g=>{ (next[g.a]=next[g.a]||{})[g.b]=g.wk; (next[g.b]=next[g.b]||{})[g.a]=g.wk; });
 const h2hSel = $("h2hTeam");
@@ -737,7 +741,7 @@ let saved = null; try { saved = localStorage.getItem("h2hTeam"); } catch(e) {}
 h2hSel.value = (saved && L.teams[saved]) ? saved : "MNW";
 const drawH2H = () => {
   const me = h2hSel.value;
-  const rows = keys.filter(k=>k!==me).map(o=>{
+  const rows = EVERY.filter(k=>k!==me && (!isFormer(k) || ((H[me]||{})[k]||[]).length)).map(o=>{
     const m=(H[me]||{})[o]||[], w=m.filter(x=>x.won).length, l=m.length-w, nx=(next[me]||{})[o];
     return {o,m,w,l,nx};
   }).sort((x,y)=> (y.m.length-x.m.length) || ((y.w-y.l)-(x.w-x.l)) || T(x.o).localeCompare(T(y.o)));
@@ -745,7 +749,7 @@ const drawH2H = () => {
     const games = [...m].reverse().map(x=>`<div class="gr"><span class="sn">${x.s}</span><span class="gl">${esc(x.t || ("Week " + x.w))}</span><span class="wl ${x.won?"w":"l"}">${x.won?"W":"L"}</span><span class="sc">${f2(x.sa)} – ${f2(x.sb)}</span></div>`).join("");
     const det = (games || `<div class="none">Haven't played yet</div>`) + (nx ? `<div class="nx">Next meeting: Week ${nx}</div>` : "");
     const rec = m.length ? `<div class="rec ${w>l?"w":w<l?"l":""}">${w}-${l}</div>` : `<div class="rec n">—</div>`;
-    return `<div class="opp"><div class="oh"><div class="on">vs ${esc(T(o))}</div>${rec}</div><div class="det">${det}</div></div>`;
+    return `<div class="opp"><div class="oh"><div class="on">vs ${esc(T(o))}${isFormer(o) ? " <small>(former)</small>" : ""}</div>${rec}</div><div class="det">${det}</div></div>`;
   }).join("");
 };
 h2hSel.addEventListener("change", ()=>{ try { localStorage.setItem("h2hTeam", h2hSel.value); } catch(e) {} drawH2H(); });
@@ -770,7 +774,7 @@ $("champs").innerHTML = (L.past||[]).map(P => {
   const final = P.games.find(g=>g[5]==="Championship");
   const fl = final ? (()=>{ const [w,a,sa,b,sb]=final; const [wk,ws,lk,ls]=sa>sb?[a,sa,b,sb]:[b,sb,a,sa]; return `Final: ${esc(P.names[wk])} ${f2(ws)}, ${esc(P.names[lk])} ${f2(ls)}`; })() : "";
   return `<div class="champ"><div class="yr">🏆 ${P.season} Champion · ${esc(P.league)}</div><div class="who">${esc(P.names[P.champ])}</div><div class="now">Now ${esc(T(P.champ))} · ${fl}</div><ol>${fin}</ol></div>`;
-}).join("") + `<div class="champ" style="background:var(--paper-2)"><div class="yr">🏆 2026 Champion</div><div class="who">To be decided</div><div class="now">Playoffs: Weeks 15–17 · 6 teams</div></div>`;
+}).join("") + `<div class="champ" style="background:var(--paper-2)"><div class="yr">🏆 ${CUR} Champion</div><div class="who">To be decided</div><div class="now">Playoffs: Weeks 15–17 · 6 teams</div></div>`;
 $("awards").innerHTML = Object.keys(L.awards).sort((a,b)=>b-a).map(w=>`<div class="wk"><h3>Week ${w}</h3><div class="aw">${L.awards[w].map(([aw,txt])=>`<div><b>${esc(aw)}</b>${esc(txt)}</div>`).join("")}</div></div>`).join("");
 
 // results
@@ -1107,11 +1111,11 @@ $("bdNext").addEventListener("click", () => renderBreakdown(bdW, bdI+1));
 renderBreakdown(bdW);
 
 /* ===================== HISTORY / ARCHIVE ===================== */
-const SEASONS = [{y:2026, games:L.games.map(g=>[...g,""]), recaps:L.recaps||{}, awards:L.awards||{}, bench:L.bench||{}, nm:k=>T(k), reg:99, rounds:{}},
-  ...(L.past||[]).map(P=>({y:P.season, games:P.games, recaps:P.recaps||{}, awards:P.awards||{}, bench:P.bench||{}, nm:k=>P.names[k], reg:14, rounds:{15:"Quarterfinals",16:"Semifinals",17:"Championship"}}))];
+const SEASONS = [{y:CUR, ks:Object.keys(L.teams), games:L.games.map(g=>[...g,""]), recaps:L.recaps||{}, awards:L.awards||{}, bench:L.bench||{}, nm:k=>T(k), reg:99, rounds:{}},
+  ...(L.past||[]).map(P=>({y:P.season, ks:Object.keys(P.names), games:P.games, recaps:P.recaps||{}, awards:P.awards||{}, bench:P.bench||{}, nm:k=>P.names[k], reg:14, rounds:{15:"Quarterfinals",16:"Semifinals",17:"Championship"}}))];
 let hxS = SEASONS[0], hxWk = 0;
 const wksOf = S => [...new Set(S.games.map(g=>g[0]))].sort((a,b)=>a-b);
-const setHash = (y,w) => { try { history.replaceState(null,"","#history-"+(y===2026?"":y+"-")+w); } catch(err) {} };
+const setHash = (y,w) => { try { history.replaceState(null,"","#history-"+(y===CUR?"":y+"-")+w); } catch(err) {} };
 function renderHistory(w, y) {
   if (y) hxS = SEASONS.find(s=>s.y===y) || hxS;
   const ws = wksOf(hxS); if (!ws.includes(w)) w = ws[ws.length-1]; hxWk = w;
@@ -1127,7 +1131,7 @@ function renderHistory(w, y) {
   const hi = sc.reduce((m,x)=>x[1]>m[1]?x:m), lo = sc.reduce((m,x)=>x[1]<m[1]?x:m);
   const mg = wg.map(([_,a,sa,b,sb])=>({w:sa>sb?a:b, l:sa>sb?b:a, m:Math.abs(sa-sb)}));
   const close = mg.reduce((m,x)=>x.m<m.m?x:m), blow = mg.reduce((m,x)=>x.m>m.m?x:m);
-  const bench = keys.map(k=>[k,(hxS.bench[k]||[])[w-1]]).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]);
+  const bench = hxS.ks.map(k=>[k,(hxS.bench[k]||[])[w-1]]).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]);
   $("hxSup").innerHTML = [
     ["High score", f2(hi[1]), N(hi[0])], ["Low score", f2(lo[1]), N(lo[0])],
     ["Closest game", close.m.toFixed(2), `${N(close.w)} over ${N(close.l)}`], ["Biggest blowout", "+" + blow.m.toFixed(2), `${N(blow.w)} over ${N(blow.l)}`],
@@ -1139,9 +1143,9 @@ function renderHistory(w, y) {
   $("hxAwT").textContent = `${hxS.rounds[w] || "Week " + w} Awards`;
   $("hxAw").innerHTML = (hxS.awards[w]||[]).map(([aw,txt])=>`<div class="haw"><b>${esc(aw)}</b>${esc(txt)}</div>`).join("") || `<p class="empty">No awards recorded for this week.</p>`;
   const upto = Math.min(w, hxS.reg);
-  const St = Object.fromEntries(keys.map(k=>[k,{w:0,l:0,pf:0}]));
+  const St = Object.fromEntries(hxS.ks.map(k=>[k,{w:0,l:0,pf:0}]));
   hxS.games.filter(g=>g[0]<=upto && !g[5]).forEach(([_,a,sa,b,sb])=>{ St[a].pf+=sa; St[b].pf+=sb; if (sa>sb){St[a].w++;St[b].l++;} else {St[b].w++;St[a].l++;} });
-  const ord = [...keys].sort((a,b)=>(St[b].w-St[a].w)||(St[b].pf-St[a].pf));
+  const ord = [...hxS.ks].sort((a,b)=>(St[b].w-St[a].w)||(St[b].pf-St[a].pf));
   $("hxStT").textContent = w > hxS.reg ? "Final Regular-Season Standings" : `Standings after Week ${w}`;
   $("hxSt").innerHTML = `<thead><tr><th>#</th><th style="text-align:left">Team</th><th>W-L</th><th>PF</th></tr></thead><tbody>` + ord.map((k,i)=>`<tr><td>${i+1}</td><td class="tm">${esc(N(k))}</td><td>${St[k].w}-${St[k].l}</td><td>${St[k].pf.toFixed(1)}</td></tr>`).join("") + `</tbody>`;
   $("hxBench").innerHTML = bench.length ? `<thead><tr><th style="text-align:left">Team</th><th>Left on bench</th></tr></thead><tbody>` + bench.map(([k,v])=>`<tr><td class="tm">${esc(N(k))}</td><td>${v.toFixed(1)}</td></tr>`).join("") + `</tbody>` : `<tbody><tr><td class="empty">No bench data for this week.</td></tr></tbody>`;
@@ -1150,14 +1154,14 @@ $("seasonPills").addEventListener("click", e => { const b = e.target.closest("bu
 $("wkPills").addEventListener("click", e => { const b = e.target.closest(".wkpill"); if (!b) return; const w = +b.dataset.wk; setHash(hxS.y,w); renderHistory(w); });
 $("wkPrev").addEventListener("click", ()=>{ const ws = wksOf(hxS), i = ws.indexOf(hxWk); if (i>0) { setHash(hxS.y,ws[i-1]); renderHistory(ws[i-1]); } });
 $("wkNext").addEventListener("click", ()=>{ const ws = wksOf(hxS), i = ws.indexOf(hxWk); if (i<ws.length-1) { setHash(hxS.y,ws[i+1]); renderHistory(ws[i+1]); } });
-renderHistory(wksOf(SEASONS[0]).slice(-1)[0], 2026);
+renderHistory(wksOf(SEASONS[0]).slice(-1)[0], CUR);
 
 /* ===================== RECORD BOOK ===================== */
 {
   const ALL = SEASONS.flatMap(S=>S.games.map(([w,a,sa,b,sb,t])=>({S,y:S.y,w,a,sa,b,sb,t})));
   const when = x => `${x.y} ${x.t && x.t!=="Consolation" ? x.t : "Week " + x.w}`;
-  const tName = (S,k) => S.y===2026 ? T(k) : `${S.nm(k)}`;
-  const now = (S,k) => S.y===2026 || S.nm(k)===T(k) ? "" : ` (now ${T(k)})`;
+  const tName = (S,k) => S.y===CUR ? T(k) : `${S.nm(k)}`;
+  const now = (S,k) => S.y===CUR || isFormer(k) || S.nm(k)===T(k) ? "" : ` (now ${T(k)})`;
   const teamScores = ALL.flatMap(x=>[{x,k:x.a,s:x.sa,o:x.sb},{x,k:x.b,s:x.sb,o:x.sa}]);
   const row = (i,title,sub,val) => `<div class="rr"><span class="n">${i+1}</span><span class="t">${esc(title)}<small>${esc(sub)}</small></span><span class="v">${esc(val)}</span></div>`;
   const card = (title, rows) => `<div class="rb"><h3>${title}</h3>${rows.join("")}</div>`;
@@ -1167,30 +1171,31 @@ renderHistory(wksOf(SEASONS[0]).slice(-1)[0], 2026);
   const blow = [...mgs].sort((p,q)=>q.m-p.m).slice(0,5).map((e,i)=>row(i, `${tName(e.x.S,e.w)} over ${tName(e.x.S,e.l)}`, when(e.x), "+" + e.m.toFixed(2)));
   const close = [...mgs].sort((p,q)=>p.m-q.m).slice(0,5).map((e,i)=>row(i, `${tName(e.x.S,e.w)} over ${tName(e.x.S,e.l)}`, when(e.x), e.m.toFixed(2)));
   const pl = (arr) => arr.map(([p,n,k,y,w],i)=>{ const S = SEASONS.find(s=>s.y===y); return row(i, n, `${tName(S,k)} · ${y} Week ${w}`, f2(p)); });
-  const benchW = SEASONS.flatMap(S=>keys.flatMap(k=>(S.bench[k]||[]).map((v,i)=>({S,k,w:i+1,v})).filter(e=>e.v!=null))).sort((p,q)=>q.v-p.v).slice(0,5)
+  const benchW = SEASONS.flatMap(S=>S.ks.flatMap(k=>(S.bench[k]||[]).map((v,i)=>({S,k,w:i+1,v})).filter(e=>e.v!=null))).sort((p,q)=>q.v-p.v).slice(0,5)
     .map((e,i)=>row(i, tName(e.S,e.k), `${e.S.y} Week ${e.w}` + now(e.S,e.k), e.v.toFixed(1)));
   const streaks = [];
-  for (const S of SEASONS) for (const k of keys) { let cur=0, best=0;
+  for (const S of SEASONS) for (const k of S.ks) { let cur=0, best=0;
     for (const [w,a,sa,b,sb,t] of S.games.filter(g=>!g[5]).sort((p,q)=>p[0]-q[0])) { if (a!==k && b!==k) continue; const won = (a===k) === (sa>sb); cur = won ? cur+1 : 0; best = Math.max(best,cur); }
     if (best) streaks.push({S,k,best}); }
   const strk = streaks.sort((p,q)=>q.best-p.best).slice(0,5).map((e,i)=>row(i, tName(e.S,e.k), `${e.S.y} regular season` + now(e.S,e.k), e.best + " W"));
   $("rcBook").innerHTML = [card("🔥 Highest Scores", hiS), card("🧊 Lowest Scores", loS), card("💥 Biggest Blowouts", blow), card("😬 Closest Games", close),
     card("⭐ Best Individual Games", pl(L.records.starts)), card("🪑 Best Games on the Bench", pl(L.records.benched)), card("🛋️ Most Left on the Bench", benchW), card("📈 Longest Win Streaks", strk)].join("");
-  const C = Object.fromEntries(keys.map(k=>[k,{w:0,l:0,pf:0,g:0,pw:0,pl:0,titles:0,apps:0,best:null}]));
+  const C = Object.fromEntries(EVERY.map(k=>[k,{w:0,l:0,pf:0,g:0,pw:0,pl:0,titles:0,apps:0,best:null}]));
+  const wp = c => c.w+c.l ? c.w/(c.w+c.l) : 0;
   for (const x of ALL) { if (x.t==="Consolation") continue;
     for (const [k,s,o] of [[x.a,x.sa,x.sb],[x.b,x.sb,x.sa]]) { const c=C[k]; if (!x.t) { c.g++; c.pf+=s; s>o?c.w++:c.l++; } else { s>o?c.pw++:c.pl++; } } }
   for (const P of (L.past||[])) { C[P.champ].titles++; P.finish.slice(0,6).forEach(k=>C[k].apps++); P.finish.forEach((k,i)=>{ if (C[k].best===null || i+1<C[k].best) C[k].best=i+1; }); }
-  const ord2 = [...keys].sort((a,b)=>(C[b].titles-C[a].titles)||((C[b].w/(C[b].w+C[b].l))-(C[a].w/(C[a].w+C[a].l)))||(C[b].pf-C[a].pf));
+  const ord2 = [...EVERY].sort((a,b)=>(isFormer(a)-isFormer(b))||(C[b].titles-C[a].titles)||(wp(C[b])-wp(C[a]))||(C[b].pf-C[a].pf));
   const sfx = n => n===1?"1st":n===2?"2nd":n===3?"3rd":n+"th";
   $("rcCareer").innerHTML = `<thead><tr><th>#</th><th style="text-align:left">Manager's team</th><th>Titles</th><th>W-L</th><th>Win %</th><th>PF / game</th><th>Playoffs</th><th>Best finish</th></tr></thead><tbody>` +
-    ord2.map((k,i)=>{ const c=C[k]; return `<tr><td>${i+1}</td><td class="tm">${esc(T(k))}</td><td class="${c.titles?"ttl":""}">${c.titles?"🏆".repeat(c.titles):"–"}</td><td>${c.w}-${c.l}</td><td>${(c.w/(c.w+c.l)*100).toFixed(1)}</td><td>${(c.pf/c.g).toFixed(1)}</td><td>${c.apps ? c.pw+"-"+c.pl : "–"}</td><td>${c.best ? sfx(c.best) : "–"}</td></tr>`; }).join("") + `</tbody>`;
+    ord2.map((k,i)=>{ const c=C[k]; return `<tr><td>${i+1}</td><td class="tm">${esc(T(k))}${isFormer(k) ? "<small>Former member</small>" : ""}</td><td class="${c.titles?"ttl":""}">${c.titles?"🏆".repeat(c.titles):"–"}</td><td>${c.w}-${c.l}</td><td>${c.w+c.l ? (wp(c)*100).toFixed(1) : "–"}</td><td>${c.g ? (c.pf/c.g).toFixed(1) : "–"}</td><td>${c.apps ? c.pw+"-"+c.pl : "–"}</td><td>${c.best ? sfx(c.best) : "–"}</td></tr>`; }).join("") + `</tbody>`;
 }
 
 /* ===================== PAGES (one section at a time) ===================== */
 const PAGES = [...document.querySelectorAll(".wrap > section")].map(s=>s.id);
 const showPage = (id, scroll) => {
   id = ({week:"home", results:"scores"})[id] || id;
-  const hm = /^history-(?:(\d{4})-)?(\d+)$/.exec(id || ""); if (hm) { id = "history"; renderHistory(+hm[2], hm[1] ? +hm[1] : 2026); }
+  const hm = /^history-(?:(\d{4})-)?(\d+)$/.exec(id || ""); if (hm) { id = "history"; renderHistory(+hm[2], hm[1] ? +hm[1] : CUR); }
   const bm = /^breakdown-(\d+)$/.exec(id || ""); if (bm) { id = "breakdown"; renderBreakdown(+bm[1]); }
   if (!PAGES.includes(id) || id === "bet") id = "home";
   document.querySelectorAll(".wrap > section").forEach(s => { s.hidden = s.id !== id; });
