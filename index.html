@@ -272,6 +272,15 @@ table.mini tr.lucky td,table.mini tr.cursed td{background:transparent}
 .sup strong{display:block;font-family:var(--display);font-weight:400;font-size:24px;line-height:1.05}
 .sup span{font-size:13px}
 .bookcard{border-top-color:var(--green)}
+/* champions */
+.champs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:16px}
+.champ{border:3px double var(--ink);background:var(--gold-bg);padding:12px 14px;min-width:0}
+.champ .yr{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.champ .who{font-family:var(--display);font-size:28px;line-height:1.05;text-transform:uppercase;margin-top:2px}
+.champ .now{font-family:var(--sans);font-size:14px}
+.champ ol{margin:8px 0 0;padding-left:22px;font-family:var(--sans);font-size:14px}
+.champ ol li{padding:2px 0}
+.champ ol small{color:var(--muted)}
 /* nav tabs v2 */
 header.site nav ul{flex-wrap:wrap;overflow:visible;gap:6px;padding:4px 16px 10px}
 header.site nav a{font-size:14px;font-weight:700;color:#fff;letter-spacing:.06em;background:#2e2922;border:1px solid #574e40;border-radius:999px;padding:8px 15px;border-bottom-width:1px}
@@ -455,12 +464,13 @@ header.site nav a[aria-current="page"]{background:#ff6b5e;border-color:#ff6b5e;c
     <select id="h2hTeam"></select>
   </label>
   <div class="opps" id="h2h"></div>
-  <p class="key">Records cover the 2026 season. The 2025 league (Degenerate Fantasy Football) has been found and gets added next.</p>
+  <p class="key">All-time records: the 2025 season (Degenerate Fantasy Football, regular season and playoffs; consolation games left out) and 2026. The 2024 league isn't on Yahoo, so it isn't included.</p>
   <div class="rivals" id="rivals"></div>
 </section>
 
 <section id="trophies">
   <div class="desk"><h2>The Trophy Room</h2><p>Every weekly award, every week</p></div>
+  <div class="champs" id="champs"></div>
   <div class="race" id="race"></div>
   <div class="weeks" id="awards"></div>
   <div class="show"><b>🏆 The Degens Awards Show</b>Season-long awards (MVP, Coach of the Year, Bench Warmer of the Year, and the Luckiest Team Alive) get handed out when the regular season ends. Every weekly award counts toward it.</div>
@@ -493,6 +503,12 @@ const L = {
     PIG:{n:"Parker's Dream Team",note:"asst. commish · formerly Parker's Porkers"}, CEM:{n:"Just Win Baby",note:"formerly Clear Eyes Mark"}, SDW:{n:"SD Beached Whales"},
     TTS:{n:"TealTeamSix"}, JUL:{n:"Julian's Grit"}, CDL:{n:"CeeDee Had a Little Lamb 🐑"}, GRS:{n:"Gridiron Shea"}
   },
+  // past seasons (separate Yahoo leagues; same 10 managers). tag "" = regular season; "Consolation" games are left out of head-to-head.
+  past: [{season:2025, league:"Degenerate Fantasy Football", champ:"GRS",
+    finish:["GRS","CDL","GLK","TTS","MNW","CEM","COM","PIG","JUL","SDW"],
+    names:{GRS:"🎲 Gamble Play Shea",CDL:"💥 Tannerboy's Pop",GLK:"GIBB IT TO ME BABY",TTS:"TealTeamSix",MNW:"🛞 Father of Trell",CEM:"Just WIN Baby!!!!!",COM:"$3000 / $350 / $150",PIG:"Parker's Porkers",JUL:"Prime Time Julian",SDW:"San Diego Beached Whales"},
+    reg:{GRS:"8-6",CDL:"9-5",GLK:"9-5",TTS:"8-6",MNW:"6-8",CEM:"7-7",COM:"6-8",PIG:"6-8",JUL:"5-9",SDW:"6-8"},
+    games:[[1,"MNW",149.12,"COM",102.12,""],[1,"SDW",130.98,"PIG",121.06,""],[1,"CEM",102.22,"JUL",130.12,""],[1,"TTS",135.66,"GLK",113.02,""],[1,"CDL",173.88,"GRS",106.44,""],[2,"TTS",95.62,"GRS",165.64,""],[2,"MNW",131.94,"GLK",133.58,""],[2,"SDW",92.24,"CEM",174.3,""],[2,"PIG",192.1,"CDL",114.7,""],[2,"COM",121.7,"JUL",113.44,""],[3,"MNW",90.42,"JUL",129.14,""],[3,"CDL",171.92,"CEM",96.72,""],[3,"COM",114,"SDW",129.24,""],[3,"GRS",176.62,"GLK",127.86,""],[3,"TTS",134.52,"PIG",141.62,""],[4,"JUL",188.78,"GLK",174.9,""],[4,"MNW",117.62,"SDW",128.8,""],[4,"TTS",191.36,"CEM",110.58,""],[4,"COM",102.52,"CDL",177.9,""],[4,"PIG",92.08,"GRS",170.24,""],[5,"PIG",151.34,"GLK",151.62,""],[5,"GRS",166.52,"CEM",166.84,""],[5,"SDW",152.3,"JUL",121.38,""],[5,"MNW",111.32,"CDL",160.46,""],[5,"COM",99.44,"TTS",129.52,""],[6,"MNW",161.94,"TTS",162.4,""],[6,"PIG",129.22,"CEM",138.04,""],[6,"COM",165.06,"GRS",178.86,""],[6,"SDW",102.44,"GLK",108.28,""],[6,"CDL",111.74,"JUL",65.98,""],[7,"SDW",151.44,"CDL",171.82,""],[7,"MNW",138.78,"GRS",208.46,""],[7,"CEM",144.24,"GLK",176.04,""],[7,"TTS",133.24,"JUL",96.38,""],[7,"COM",141.06,"PIG",143.94,""],[8,"COM",146.02,"CEM",159.18,""],[8,"TTS",91.62,"SDW",186.86,""],[8,"CDL",136.38,"GLK",139.46,""],[8,"MNW",100.88,"PIG",149.8,""],[8,"GRS",130.58,"JUL",123.7,""],[9,"MNW",150.06,"CEM",126.7,""],[9,"SDW",129.48,"GRS",119.22,""],[9,"TTS",204.22,"CDL",162.04,""],[9,"PIG",151.16,"JUL",127.74,""],[9,"COM",113,"GLK",101.4,""],[10,"MNW",111.8,"COM",188.7,""],[10,"TTS",173.44,"GLK",176.22,""],[10,"CDL",192.82,"GRS",126.9,""],[10,"SDW",93.32,"PIG",111.04,""],[10,"CEM",130.02,"JUL",118.18,""],[11,"PIG",76.5,"CDL",165.9,""],[11,"COM",107.34,"JUL",117.72,""],[11,"MNW",148.24,"GLK",126.64,""],[11,"TTS",197.38,"GRS",118.5,""],[11,"SDW",93.8,"CEM",117.96,""],[12,"COM",149.26,"SDW",107.86,""],[12,"MNW",149.26,"JUL",146.66,""],[12,"TTS",130.92,"PIG",108.92,""],[12,"GRS",157.46,"GLK",224.18,""],[12,"CDL",172.62,"CEM",97.62,""],[13,"MNW",130.08,"SDW",111.9,""],[13,"TTS",139.42,"CEM",166.02,""],[13,"COM",154.7,"CDL",110.72,""],[13,"JUL",89.06,"GLK",154.14,""],[13,"PIG",62.34,"GRS",169.04,""],[14,"PIG",116.86,"GLK",120.1,""],[14,"SDW",98.6,"JUL",144.96,""],[14,"COM",158.24,"TTS",132.64,""],[14,"MNW",197.76,"CDL",139.34,""],[14,"GRS",139.38,"CEM",102.12,""],[15,"MNW",106.5,"GRS",204.94,"Quarterfinal"],[15,"TTS",135.32,"CEM",129.8,"Quarterfinal"],[16,"TTS",127.9,"CDL",225.48,"Semifinal"],[16,"GRS",173.68,"GLK",146.8,"Semifinal"],[16,"SDW",105.2,"PIG",122.86,"Consolation"],[16,"MNW",166.56,"CEM",143.5,"5th-place game"],[16,"COM",185.56,"JUL",153.26,"Consolation"],[17,"SDW",82.3,"JUL",128.12,"Consolation"],[17,"TTS",77.68,"GLK",106.72,"3rd-place game"],[17,"COM",176.18,"PIG",85.78,"Consolation"],[17,"CDL",146.46,"GRS",178.18,"Championship"]]}],
   // [week, teamA, scoreA, teamB, scoreB]
   games: [
     [1,"PIG",218.86,"MNW",99.76],[1,"COM",115.92,"GRS",107.16],[1,"TTS",176.02,"CEM",141.16],[1,"GLK",129.66,"CDL",129.20],[1,"JUL",166.80,"SDW",162.00],
@@ -599,10 +615,13 @@ $("stTbl").innerHTML = `<thead><tr><th>#</th><th style="text-align:left">Team</t
 
 // head to head
 const H = {}; // H[a][b] = list of {w,won,sa,sb}
-for (const [w,a,sa,b,sb] of L.games) {
-  (H[a]=H[a]||{})[b]=(H[a][b]||[]).concat({w,won:sa>sb,sa,sb});
-  (H[b]=H[b]||{})[a]=(H[b][a]||[]).concat({w,won:sb>sa,sa:sb,sb:sa});
-}
+const addH = (s,w,a,sa,b,sb,t) => {
+  (H[a]=H[a]||{})[b]=(H[a][b]||[]).concat({s,w,t,won:sa>sb,sa,sb});
+  (H[b]=H[b]||{})[a]=(H[b][a]||[]).concat({s,w,t,won:sb>sa,sa:sb,sb:sa});
+};
+for (const P of (L.past||[])) for (const [w,a,sa,b,sb,t] of P.games) if (t !== "Consolation") addH(P.season,w,a,sa,b,sb,t);
+for (const [w,a,sa,b,sb] of L.games) addH(2026,w,a,sa,b,sb,"");
+const gLabel = x => `${x.s} ${x.t || ("Wk " + x.w)}`;
 const next = {}; L.upcoming.forEach(g=>{ (next[g.a]=next[g.a]||{})[g.b]=g.wk; (next[g.b]=next[g.b]||{})[g.a]=g.wk; });
 const h2hSel = $("h2hTeam");
 h2hSel.innerHTML = [...keys].sort((a,b)=>T(a).localeCompare(T(b))).map(k=>`<option value="${k}">${esc(T(k))}</option>`).join("");
@@ -615,7 +634,7 @@ const drawH2H = () => {
     return {o,m,w,l,nx};
   }).sort((x,y)=> (y.m.length-x.m.length) || ((y.w-y.l)-(x.w-x.l)) || T(x.o).localeCompare(T(y.o)));
   $("h2h").innerHTML = rows.map(({o,m,w,l,nx})=>{
-    const games = m.map(x=>`Wk ${x.w}: ${x.won?"W":"L"} ${f2(x.sa)}–${f2(x.sb)}`).join(" · ");
+    const games = [...m].reverse().map(x=>`${gLabel(x)}: ${x.won?"W":"L"} ${f2(x.sa)}–${f2(x.sb)}`).join(" · ");
     const det = [games, nx?`Next: Week ${nx}`:""].filter(Boolean).join(" · ") || "Haven't played yet";
     const rec = m.length ? `<div class="rec ${w>l?"w":w<l?"l":""}">${w}-${l}</div>` : `<div class="rec n">—</div>`;
     return `<div class="opp"><div class="on">vs ${esc(T(o))}</div>${rec}<div class="det">${esc(det)}</div></div>`;
@@ -626,7 +645,7 @@ drawH2H();
 $("rivals").innerHTML = L.rivals.map(r=>{
   const m=(H[r.a]||{})[r.b]||[], w=m.filter(x=>x.won).length, l=m.length-w, nx=(next[r.a]||{})[r.b];
   return `<div class="rival"><div class="nm">${esc(r.nm)}</div><div class="vs">${esc(T(r.a))} vs ${esc(T(r.b))}</div><p>${esc(r.why)}</p>
-  <div class="rec">Series: ${m.length?`${esc(T(r.a))} leads ${w}-${l}`.replace(/leads 0-0/,"tied"):"no meetings yet"}${nx?` · next: Week ${nx}`:""}</div></div>`;
+  <div class="rec">All-time series: ${m.length?(w===l?`tied ${w}-${l}`:w>l?`${esc(T(r.a))} leads ${w}-${l}`:`${esc(T(r.b))} leads ${l}-${w}`):"no meetings yet"}${nx?` · next: Week ${nx}`:""}</div></div>`;
 }).join("");
 
 // trophy room
@@ -638,6 +657,12 @@ $("race").innerHTML = race.map(([aw,label])=>{ const {ks,max}=leader(aw);
   return `<div class="cab"><div class="t">${esc(label)}</div><div class="who">${ks.length>3?"Wide open":ks.map(k=>esc(T(k))).join(" / ")}</div><div class="n">${max} award${max===1?"":"s"}${ks.length>1?" each":""}</div></div>`; }).join("") +
   (()=>{ const lk=[...keys].sort((a,b)=>{const la=S[a].w-S[a].apw/(S[a].apw+S[a].apl)*(S[a].w+S[a].l), lb=S[b].w-S[b].apw/(S[b].apw+S[b].apl)*(S[b].w+S[b].l); return lb-la;})[0];
      return `<div class="cab"><div class="t">Luckiest Team Alive race</div><div class="who">${esc(T(lk))}</div><div class="n">${S[lk].w}-${S[lk].l} record, ${S[lk].apw}-${S[lk].apl} all-play</div></div>`; })();
+$("champs").innerHTML = (L.past||[]).map(P => {
+  const fin = P.finish.map((k,i)=>`<li><b>${esc(P.names[k])}</b> <small>${esc(P.reg[k])} · now ${esc(T(k))}</small></li>`).join("");
+  const final = P.games.find(g=>g[5]==="Championship");
+  const fl = final ? (()=>{ const [w,a,sa,b,sb]=final; const [wk,ws,lk,ls]=sa>sb?[a,sa,b,sb]:[b,sb,a,sa]; return `Final: ${esc(P.names[wk])} ${f2(ws)}, ${esc(P.names[lk])} ${f2(ls)}`; })() : "";
+  return `<div class="champ"><div class="yr">🏆 ${P.season} Champion · ${esc(P.league)}</div><div class="who">${esc(P.names[P.champ])}</div><div class="now">Now ${esc(T(P.champ))} · ${fl}</div><ol>${fin}</ol></div>`;
+}).join("") + `<div class="champ" style="background:var(--paper-2)"><div class="yr">🏆 2026 Champion</div><div class="who">To be decided</div><div class="now">Playoffs: Weeks 15–17 · 6 teams</div></div>`;
 $("awards").innerHTML = Object.keys(L.awards).sort((a,b)=>b-a).map(w=>`<div class="wk"><h3>Week ${w}</h3><div class="aw">${L.awards[w].map(([aw,txt])=>`<div><b>${esc(aw)}</b>${esc(txt)}</div>`).join("")}</div></div>`).join("");
 
 // results
