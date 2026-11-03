@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="robots" content="noindex, nofollow"><meta name="description" content="Fantasy Degens 2026–27: scores, standings, history, rivalries and awards."><style>#bet,.bookcard,a[href="#bet"]{display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="robots" content="noindex, nofollow"><meta name="description" content="Fantasy Degens 2026–27: scores, standings, history, rivalries and awards."><style>#bet,.bookcard,.bdbook,a[href="#bet"]{display:none!important}</style></head><body>
 <title>Fantasy Degens HQ</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans+Condensed:wght@400;600;700&display=swap">
 <style>
@@ -255,6 +255,38 @@ table.mini tr.lucky td,table.mini tr.cursed td{background:transparent}
 #homeRiv .nm{font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1.05}
 #homeRiv .vs{font-family:var(--sans);font-weight:700;font-size:14px;margin-top:2px}
 #homeRiv p{margin:6px 0 0;font-size:15px}
+/* ===== breakdowns ===== */
+#bdGames .wkpill{padding:0 12px}
+.bd{display:grid;gap:12px;margin-top:8px}
+.bd .tag{justify-self:start}
+.bd h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,7vw,54px);line-height:.95;text-transform:uppercase;margin:0;text-wrap:balance}
+.bd .dek{margin:0;font-size:18px;max-width:64ch}
+.bdvs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;border-block:3px solid var(--ink);padding:10px 0}
+.bdvs .v{font-family:var(--sans);font-weight:700;font-size:14px;color:var(--red);text-align:center}
+.bdtm{min-width:0;font-family:var(--sans)}
+.bdtm.rt{text-align:right}
+.bdtm .n{font-weight:700;font-size:16px;line-height:1.15}
+.bdtm .m{font-size:13px;color:var(--muted)}
+.bdtm .p{font-family:var(--display);font-size:clamp(34px,8vw,48px);line-height:1;margin-top:2px;font-variant-numeric:tabular-nums}
+.bdtm .p.l{color:var(--muted)}
+.bdtm .w{font-weight:700;font-size:12px;letter-spacing:.08em;color:var(--red);text-transform:uppercase}
+.bdt{table-layout:fixed;font-size:15px;background:var(--paper-2);border:1px solid var(--rule)}
+.bdt td,.bdt th{padding:7px 6px;overflow:hidden;text-overflow:ellipsis}
+.bdt thead td{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+.bdt td{text-align:left}
+.bdt td.bdr{text-align:right}
+.bdt td.pa,.bdt td.pb{text-align:center;font-weight:700}
+.bdt tbody th{background:var(--ink);color:var(--paper);text-align:center;font-size:11px;letter-spacing:.06em;padding-inline:2px}
+.bdt td.e{background:var(--gold-bg);font-weight:700}
+.bdt em{font-style:normal;font-size:11px;font-weight:700;color:var(--red)}
+.bdt u{text-decoration:none;font-size:10px;font-weight:700;color:#fff;background:var(--red);padding:0 3px;margin-left:2px}
+.bdinfo{font-family:var(--sans);font-size:15px;display:grid;gap:4px}
+.bdinfo b{color:var(--red);text-transform:uppercase;letter-spacing:.06em;font-size:12px;margin-right:6px}
+.bdbox{border:3px double var(--ink);background:var(--paper-2);padding:10px 14px}
+.bdbox h3{font-family:var(--sans);font-size:14px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4px}
+.bdbox p{margin:0;font-size:17px}
+@media (max-width:520px){.bdt{font-size:13.5px}.bdt td,.bdt th{padding:6px 3px}.bdtm .n{font-size:14px}.bd .dek{font-size:16px}}
+
 /* ===== history ===== */
 .wkbar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .wkpills{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding-block:2px}
@@ -337,6 +369,7 @@ header.site nav a[aria-current="page"]{background:#ff6b5e;border-color:#ff6b5e;c
   </div>
   <nav aria-label="Sections"><ul>
     <li><a href="#home">Home</a></li>
+    <li><a href="#breakdown">Breakdowns</a></li>
     <li><a href="#scores">Scores</a></li>
     <li><a href="#standings">Standings</a></li>
     <li><a href="#history">History</a></li>
@@ -385,6 +418,17 @@ header.site nav a[aria-current="page"]{background:#ff6b5e;border-color:#ff6b5e;c
       </div>
     </aside>
   </div>
+</section>
+
+<section id="breakdown">
+  <div class="desk"><h2>Matchup Breakdowns</h2><p id="bdSub"></p></div>
+  <div class="wkbar"><div class="wkpills" id="bdWeeks" role="tablist" aria-label="Week"></div></div>
+  <div class="wkbar">
+    <button type="button" class="wkarrow" id="bdPrev" aria-label="Previous matchup">◀</button>
+    <div class="wkpills" id="bdGames" role="tablist" aria-label="Matchup"></div>
+    <button type="button" class="wkarrow" id="bdNext" aria-label="Next matchup">▶</button>
+  </div>
+  <article class="bd" id="bdCard"></article>
 </section>
 
 <section id="scores">
@@ -1023,6 +1067,45 @@ $("homeAw").innerHTML = L.awards[awWk].slice(0,4).map(([aw,txt])=>`<div class="h
     $("homeRiv").innerHTML = `<div class="nm">${esc(r.nm)}</div><div class="vs">${esc(T(r.a))} vs ${esc(T(r.b))}${nx?` · Week ${nx}`:""}</div><p>${esc(r.why)}</p>`; } }
 $("homeBook").innerHTML = `Week ${BOOK.wk} lines are up: spreads, totals, props and parlays. Thursday matchups lock <b>${new Date(THU).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"})}</b>.`;
 
+/* ===================== BREAKDOWNS ===================== */
+const BDW = {"8":{"final":true,"label":"Final","games":[{"a":"MNW","b":"JUL","tag":"One Man, One League","hed":"Burrow 64.48","dek":"Joe Burrow threw for 462 yards and 5 TDs, the best start of the season. Chase (41.1) and Michael Wilson (36.8) also hit 100-yard bonuses for +35. Monday Night William's sixth straight win.","box":"<b>Burrow vs. Love: +36.96.</b> That one slot was more than half the margin. Julian's got 33.4 from Fannin and 34.8 from Gibbs, and Drake London gave them 1.8.","ra":"6-2","rb":"5-3","A":[["QB","J. Burrow",64.48],["RB","D. Swift",27.9],["RB","O. Gordon",6.9],["WR","J. Chase",41.1],["WR","M. Wilson",36.8],["TE","B. Bowers",28.2],["W/R/T","G. Pickens",6.8],["K","J. Bates",7],["DEF","Bengals",6]],"B":[["QB","J. Love",27.52],["RB","A. Jeanty",10.3],["RB","J. Gibbs",34.8],["WR","G. Wilson",14.3],["WR","D. London",1.8],["TE","H. Fannin",33.4],["W/R/T","C. Watson",27.3],["K","C. Little",6],["DEF","Browns",4]],"bA":["T. Pollard",38.7],"bB":["B. Tuten",39.9]},{"a":"CDL","b":"COM","tag":"The Commish's Whole Team: 63.46","hed":"Higgins 47.5. The Commish: 63.46.","dek":"Tee Higgins alone scored three-quarters of the commish's entire team. The commish started Jacoby Brissett (3.46) with Jayden Daniels (16.98) on the bench and got 0 from Omar Cooper.","box":"<b>Trell's gamble paid.</b> He benched his first-round pick Jonathan Taylor (6.7) and started Jonah Coleman (20.4). He didn't need it: CeeDee won by 89.02, the biggest blowout of the week.","ra":"5-3","rb":"5-3","A":[["QB","M. Stafford",10.28],["RB","R. Stevenson",12],["RB","B. Irving",31],["WR","C. Lamb",12.8],["WR","T. Higgins",47.5],["TE","B. Strange",7.5],["W/R/T","J. Coleman",20.4],["K","C. Boswell",9],["DEF","Seahawks",2]],"B":[["QB","J. Brissett",3.46],["RB","J. Cook",18.1],["RB","J. Love",2.3],["WR","J. Coker",9.6],["WR","S. Diggs",12.8],["TE","D. Goedert",7.2],["W/R/T","O. Cooper",0],["K","S. Shrader",1],["DEF","Lions",9]],"bA":["S. Darnold",21.52],"bB":["D. Kincaid",18.6]},{"a":"GLK","b":"CEM","tag":"Heartbreak, Part 2","hed":"The Jaguars D Did It","dek":"Loadin up the Drake's defense scored 24, more than Goff and LaPorta combined (17.54). Just Win Baby lost a close one for the second straight week and has now lost three in a row.","box":"<b>Tre Tucker: 0.</b> Hockenson's 15.8 also sat on the bench behind LaPorta (6.5), and Goff managed 11.04. The Drake's defense outscored Just Win's QB by 13.","ra":"5-3","rb":"2-6","A":[["QB","D. Maye",26.46],["RB","C. Brown",16.1],["RB","C. Kiner",3.8],["WR","D. Moore",16.6],["WR","L. Burden",18.6],["TE","T. Warren",5.8],["W/R/T","K. Concepcion",6.7],["K","T. Bass",16],["DEF","Jaguars",24]],"B":[["QB","J. Goff",11.04],["RB","K. Williams",12.9],["RB","R. White",14],["WR","P. Nacua",25],["WR","T. Tucker",0],["TE","S. LaPorta",6.5],["W/R/T","T. Kraft",17.3],["K","B. Aubrey",13],["DEF","Rams",12]],"bA":["J. Downs",12.3],"bB":["T. Hockenson",15.8]},{"a":"TTS","b":"PIG","tag":"Mahomes on the Couch, Again","hed":"Teal Rolls, Mahomes Sits","dek":"TealTeamSix got 33.8 from JSN and 27 from the Steelers D. Parker's Dream Team started Josh Allen (30.56) and left Patrick Mahomes' 46.44 on the bench. Six straight losses.","box":"<b>Even Mahomes wouldn't have saved it.</b> Starting him over Allen adds 15.88, and Parker's lost by 29.74. Jaylen Warren's 31.3 was the only real answer to Teal's lineup.","ra":"6-2","rb":"2-6","A":[["QB","D. Prescott",21.8],["RB","D. Henry",14],["RB","J. Williams",6.7],["WR","P. Washington",3.6],["WR","J. Smith-Njigba",33.8],["TE","T. McBride",20.2],["W/R/T","J. Jacobs",23.2],["K","M. Gay",10],["DEF","Steelers",27]],"B":[["QB","J. Allen",30.56],["RB","J. Warren",31.3],["RB","Q. Judkins",6.9],["WR","J. Jefferson",14.3],["WR","A. St. Brown",12.6],["TE","C. Loveland",11.5],["W/R/T","K. Shakir",11.4],["K","W. Reichard",1],["DEF","Vikings",11]],"bA":["M. Washington",15],"bB":["P. Mahomes",46.44]},{"a":"SDW","b":"GRS","tag":"Coach of the Week","hed":"Cousins Cooks, Shea Sinks","dek":"SD Beached Whales left only 4.3 on the bench. Kirk Cousins (34.18) and Braelon Allen (33.3) carried it. Gridiron Shea started A.J. Brown, who scored 0, and lost a sixth straight.","box":"<b>Shea's dead slot.</b> A.J. Brown scored 0 in the lineup, Bijan scored 7.6 and Bo Nix's 23.28 sat on the bench behind Caleb's 15.98. SD won by 40.60.","ra":"3-5","rb":"1-7","A":[["QB","K. Cousins",34.18],["RB","B. Allen",33.3],["RB","K. Walker",12.4],["WR","M. Golden",20.9],["WR","Z. Flowers",0],["TE","P. Freiermuth",11.6],["W/R/T","J. Williams",17],["K","J. Myers",3],["DEF","Broncos",4]],"B":[["QB","C. Williams",15.98],["RB","B. Robinson",7.6],["RB","C. Hubbard",24.9],["WR","J. Waddle",14.9],["WR","A. Brown",0],["TE","K. Pitts",2.6],["W/R/T","T. McMillan",11.8],["K","E. McPherson",5],["DEF","Patriots",13]],"bA":["X. Worthy",4.3],"bB":["B. Nix",23.28]}]},"9":{"final":false,"label":"Preview","games":[{"a":"MNW","b":"SDW","tag":"Seven Straight?","hed":"Seven Straight?","dek":"Monday Night William goes for a seventh straight win behind Burrow and Chase. SD has scored only 3.0 fewer points than MNW this season and is three games worse.","box":"<b>MNW.</b> Burrow and Bowers win their spots by a combined 9.9, and SD needs Kenneth Walker to do it alone. Best lineup swaps in Michael Wilson (Q) and the Vikings D.","ra":"6-2","rb":"3-5","oa":"97","ob":"42","line":"MNW −7.5 · O/U 254.5","h2h":"1-1 all time (split in 2025)","A":[["QB","J. Burrow",24.68,"",0],["RB","D. Swift",16.4,"",0],["RB","O. Gordon",12.97,"",0],["WR","J. Chase",20.51,"",0],["WR","G. Pickens",13.96,"",0],["TE","B. Bowers",16.82,"",0],["W/R/T","M. Wilson",12.2,"Q",1],["K","J. Bates",8.77,"",0],["DEF","Vikings",8.45,"",1]],"B":[["QB","T. Shough",19.34,"",0],["RB","K. Walker",21.54,"",0],["RB","B. Allen",8.53,"",0],["WR","M. Golden",15.14,"",0],["WR","Z. Flowers",14.63,"",0],["TE","I. Likely",12.23,"",0],["W/R/T","J. Williams",12.01,"",0],["K","J. Myers",9.25,"",0],["DEF","Broncos",9.52,"",0]]},{"a":"COM","b":"TTS","tag":"Commish in Freefall","hed":"Commish in Freefall","dek":"The commish is 5-3 with the fewest points in the league (985.9) and is coming off a 63.46. TealTeamSix has JSN, projected 34.9, the top projection on the whole slate.","box":"<b>Teal.</b> JSN alone outprojects the commish's QB and kicker combined. Teal's Steelers D is on bye, so it projects 0 until they grab a new one.","ra":"5-3","rb":"6-2","oa":"61","ob":"99","line":"Teal −29 · O/U 267","h2h":"1-1 all time (commish won the last one, 158.24–132.64)","A":[["QB","J. Daniels",21.02,"",0],["RB","J. Cook",14.93,"",0],["RB","S. Barkley",12.59,"",0],["WR","C. Olave",15.42,"",0],["WR","J. Coker",12.79,"",0],["TE","D. Kincaid",10.01,"",1],["W/R/T","S. Diggs",12.12,"",0],["K","S. Shrader",8.59,"",0],["DEF","Texans",10.85,"",0]],"B":[["QB","D. Prescott",23.57,"",0],["RB","J. Williams",17.07,"",0],["RB","J. Jacobs",14.53,"",0],["WR","J. Smith-Njigba",34.88,"",0],["WR","P. Washington",14.44,"",0],["TE","T. McBride",14.69,"",0],["W/R/T","D. Henry",13.3,"",0],["K","M. Gay",7.67,"",0],["DEF","Steelers",0,"",0]]},{"a":"CEM","b":"CDL","tag":"The Lamb Benched the Flock","hed":"Trell vs. His Own Bench","dek":"As set Tuesday, CeeDee projects 74.9: CeeDee Lamb, Jonathan Taylor, Stafford, Higgins, Irving and Kittle are all on the bench, one RB slot is empty and two starters are on bye. Started right, it projects 131.4.","box":"<b>Just Win, on paper.</b> Puka (33.9) is the 2nd-best projection on the slate. But CeeDee averages 154.5 a week and Just Win has lost three straight. If Trell fixes the lineup, this is a coin flip.","ra":"2-6","rb":"5-3","oa":"7","ob":"95","line":"Just Win −2 · O/U 280.5","h2h":"CeeDee leads 2-0 (won both by 75+ in 2025)","A":[["QB","J. Goff",22.47,"",0],["RB","K. Williams",17.42,"",0],["RB","R. White",11.19,"",0],["WR","P. Nacua",33.85,"",0],["WR","N. Collins",15.86,"",0],["TE","S. LaPorta",11.74,"",0],["W/R/T","T. Kraft",11.31,"",0],["K","B. Aubrey",9.61,"",0],["DEF","Rams",8.21,"",0]],"B":[["QB","M. Stafford",21.85,"Q",1],["RB","J. Taylor",17.37,"",1],["RB","B. Irving",16.6,"",1],["WR","C. Lamb",19.75,"",1],["WR","T. Higgins",17.03,"",1],["TE","G. Kittle",14.44,"",1],["W/R/T","J. Coleman",13.48,"",0],["K","C. Boswell",0,"",0],["DEF","Seahawks",10.88,"",0]]},{"a":"PIG","b":"GRS","tag":"No Defense, Literally","hed":"Somebody's Streak Ends","dek":"Both teams have lost six straight. One streak ends Sunday. Parker's still has no defense set, and Shea owns this matchup all time.","box":"<b>Shea.</b> Bijan and Hubbard outproject Parker's backs by 14.0, and Parker's is spotting Shea a full defense. Shea's playoff odds are under 1%, so this is for pride.","ra":"2-6","rb":"1-7","oa":"26","ob":"<1","line":"Shea −1.5 · O/U 252.5","h2h":"Shea leads 2-0 (incl. 169.04–62.34 in 2025)","A":[["QB","J. Allen",23.74,"",0],["RB","Q. Judkins",12.32,"",0],["RB","C. Skattebo",11.95,"Q",0],["WR","A. St. Brown",19.69,"",0],["WR","J. Jefferson",18.07,"",0],["TE","T. Kelce",12,"",0],["W/R/T","C. Loveland",11.47,"",0],["K","W. Reichard",8.45,"",0],["DEF","",0,"",0]],"B":[["QB","C. Williams",21.45,"",0],["RB","B. Robinson",22.15,"",0],["RB","C. Hubbard",16.15,"",0],["WR","M. Evans",14.48,"Q",1],["WR","T. McMillan",13.42,"",0],["TE","K. Pitts",9.33,"",0],["W/R/T","J. Waddle",12.24,"",0],["K","E. McPherson",9.06,"",0],["DEF","Patriots",8.07,"",0]]},{"a":"GLK","b":"JUL","tag":"Drake vs Grit","hed":"The Two-QB Problem","dek":"Both teams carry two starting QBs and have to guess. Joseph left Drake Maye's 62.46 on the bench in Week 5. Julian started Love over Lawrence in Weeks 3 and 8 and was right both times.","box":"<b>Julian's, barely.</b> Gibbs (25.6) is the difference. <span class=\"bdbook\">Projections have moved Julian's way since the line was set Tuesday morning.</span> Lawrence projects 1.8 more than Love, so Julian's has a call to make.","ra":"5-3","rb":"5-3","oa":"79","ob":"94","line":"Drake −0.5 · O/U 274.5","h2h":"1-1 all time (split in 2025)","A":[["QB","B. Purdy",24.66,"",0],["RB","C. McCaffrey",20.96,"Q",0],["RB","C. Brown",16.47,"",0],["WR","M. Nabers",15.58,"",0],["WR","L. Burden",13.66,"",0],["TE","T. Warren",13.54,"",0],["W/R/T","D. Moore",11.87,"Q",0],["K","T. Bass",8.48,"",0],["DEF","Jaguars",9.68,"",0]],"B":[["QB","T. Lawrence",21.97,"",1],["RB","J. Gibbs",25.6,"",0],["RB","B. Tuten",14.26,"Q",1],["WR","D. London",17.5,"",0],["WR","C. Watson",15.47,"Q",0],["TE","H. Fannin",11.57,"",0],["W/R/T","G. Wilson",14.43,"",0],["K","C. Little",8.92,"",0],["DEF","Browns",8.16,"",0]]}]}};
+const BDN = {MNW:"MNW",SDW:"SD",COM:"Commish",TTS:"Teal",CEM:"Just Win",CDL:"CeeDee",PIG:"Parker's",GRS:"Shea",GLK:"Drake",JUL:"Julian's"};
+const BDWS = Object.keys(BDW).map(Number).sort((a,b)=>a-b);
+let bdW = BDWS[BDWS.length-1], bdI = 0;
+const Phi = x => { const t = 1/(1+0.2316419*Math.abs(x)), d = 0.3989423*Math.exp(-x*x/2); const p = d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274)))); return x>0?1-p:p; };
+function renderBreakdown(w, i) {
+  if (!BDWS.includes(w)) w = BDWS[BDWS.length-1];
+  if (w !== bdW) bdI = 0; bdW = w; if (i != null) bdI = i;
+  const W = BDW[w], G = W.games; bdI = Math.max(0, Math.min(bdI, G.length-1)); const g = G[bdI];
+  $("bdSub").textContent = `Week ${w} · ${W.final ? "Final results" : "Projected"}`;
+  $("bdWeeks").innerHTML = BDWS.map(x=>`<button type="button" class="wkpill" role="tab" data-wk="${x}" aria-selected="${x===w}">Week ${x} · ${BDW[x].label}</button>`).join("");
+  $("bdGames").innerHTML = G.map((x,j)=>`<button type="button" class="wkpill" role="tab" data-i="${j}" aria-selected="${j===bdI}">${esc(BDN[x.a])} v ${esc(BDN[x.b])}</button>`).join("");
+  const sel = $("bdGames").querySelector('[aria-selected="true"]'); if (sel) sel.scrollIntoView({block:"nearest", inline:"center"});
+  $("bdPrev").disabled = bdI === 0; $("bdNext").disabled = bdI === G.length-1;
+  const tot = R => R.reduce((t,x)=>t+x[2],0), sa = tot(g.A), sb = tot(g.B);
+  const wa = W.final ? (sa>sb?1:0) : Phi((sa-sb)/35);
+  const side = (k, s, rec, po, p, al) => `<div class="bdtm ${al}"><div class="n">${esc(T(k))}</div><div class="m">${W.final ? "Now " + rec : rec + " · Playoff " + po + "%"}</div><div class="p ${W.final && !p ? "l" : ""}">${W.final ? f2(s) : s.toFixed(1)}</div><div class="w">${W.final ? (p ? "Win" : "Loss") : Math.round(p*100) + "% to win"}</div></div>`;
+  const pl = x => !x[1] ? "<i>nobody</i>" : esc(x[1]) + (x[3] ? ` <em>${esc(x[3])}</em>` : "") + (x[4] ? " <u>BN</u>" : "") + (!W.final && x[2]===0 ? " <em>bye</em>" : "");
+  const rows = g.A.map((x,j)=>{ const y = g.B[j], ea = x[2] > y[2] + 0.05, eb = y[2] > x[2] + 0.05;
+    return `<tr><td class="${ea?"e":""}">${pl(x)}</td><td class="pa ${ea?"e":""}">${x[2].toFixed(1)}</td><th>${x[0]==="W/R/T"?"FLEX":x[0]}</th><td class="pb ${eb?"e":""}">${y[2].toFixed(1)}</td><td class="bdr ${eb?"e":""}">${pl(y)}</td></tr>`; }).join("");
+  const won = g.A.filter((x,j)=>x[2]>g.B[j][2]).length, lost = g.A.filter((x,j)=>x[2]<g.B[j][2]).length;
+  const info = W.final
+    ? [["Positions won", `${esc(BDN[g.a])} ${won}, ${esc(BDN[g.b])} ${lost}`], ["Best on the bench", `${esc(g.bA[0])} ${g.bA[1].toFixed(1)} · ${esc(g.bB[0])} ${g.bB[1].toFixed(1)}`]]
+    : [["DegenBook", esc(g.line), "bdbook"], ["Head-to-head", esc(g.h2h)]];
+  $("bdCard").innerHTML = `<span class="tag">${esc(g.tag)}</span><h2>${esc(g.hed)}</h2><p class="dek">${esc(g.dek)}</p>
+<div class="bdvs">${side(g.a, sa, g.ra, g.oa, wa, "")}<div class="v">${W.final ? "+" + Math.abs(sa-sb).toFixed(2) : "VS"}</div>${side(g.b, sb, g.rb, g.ob, 1-wa, "rt")}</div>
+<table class="bdt"><colgroup><col><col style="width:44px"><col style="width:46px"><col style="width:44px"><col></colgroup><thead><tr><td colspan="2">${esc(BDN[g.a])}</td><td></td><td colspan="2" class="bdr">${esc(BDN[g.b])}</td></tr></thead><tbody>${rows}</tbody></table>
+<div class="bdinfo">${info.map(([b,t,c])=>`<div${c ? ` class="${c}"` : ""}><b>${b}</b>${t}</div>`).join("")}</div>
+<div class="bdbox"><h3>${W.final ? "🔑 What Decided It" : "🎯 The Pick"}</h3><p>${g.box}</p></div>
+<p class="key">${W.final ? "Actual points by lineup slot. Highlight = won the slot." : "Best possible lineups by Yahoo projections. <u style=\"text-decoration:none;background:var(--red);color:#fff;padding:0 3px;font-size:11px\">BN</u> = on the bench right now."}</p>`;
+}
+const bdHash = () => { try { history.replaceState(null,"","#breakdown-"+bdW); } catch(err) {} };
+$("bdWeeks").addEventListener("click", e => { const b = e.target.closest("[data-wk]"); if (!b) return; renderBreakdown(+b.dataset.wk); bdHash(); });
+$("bdGames").addEventListener("click", e => { const b = e.target.closest("[data-i]"); if (!b) return; renderBreakdown(bdW, +b.dataset.i); });
+$("bdPrev").addEventListener("click", () => renderBreakdown(bdW, bdI-1));
+$("bdNext").addEventListener("click", () => renderBreakdown(bdW, bdI+1));
+renderBreakdown(bdW);
+
 /* ===================== HISTORY / ARCHIVE ===================== */
 const SEASONS = [{y:2026, games:L.games.map(g=>[...g,""]), recaps:L.recaps||{}, awards:L.awards||{}, bench:L.bench||{}, nm:k=>T(k), reg:99, rounds:{}},
   ...(L.past||[]).map(P=>({y:P.season, games:P.games, recaps:P.recaps||{}, awards:P.awards||{}, bench:P.bench||{}, nm:k=>P.names[k], reg:14, rounds:{15:"Quarterfinals",16:"Semifinals",17:"Championship"}}))];
@@ -1108,6 +1191,7 @@ const PAGES = [...document.querySelectorAll(".wrap > section")].map(s=>s.id);
 const showPage = (id, scroll) => {
   id = ({week:"home", results:"scores"})[id] || id;
   const hm = /^history-(?:(\d{4})-)?(\d+)$/.exec(id || ""); if (hm) { id = "history"; renderHistory(+hm[2], hm[1] ? +hm[1] : 2026); }
+  const bm = /^breakdown-(\d+)$/.exec(id || ""); if (bm) { id = "breakdown"; renderBreakdown(+bm[1]); }
   if (!PAGES.includes(id) || id === "bet") id = "home";
   document.querySelectorAll(".wrap > section").forEach(s => { s.hidden = s.id !== id; });
   document.querySelectorAll("nav a").forEach(a => { if (a.getAttribute("href") === "#"+id) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
@@ -1116,7 +1200,7 @@ const showPage = (id, scroll) => {
 };
 document.addEventListener("click", e => {
   const a = e.target.closest('a[href^="#"]'); if (!a) return;
-  let id = a.getAttribute("href").slice(1); id = ({week:"home", results:"scores"})[id] || id; if (!PAGES.includes(id) && !/^history-(\d{4}-)?\d+$/.test(id)) return;
+  let id = a.getAttribute("href").slice(1); id = ({week:"home", results:"scores"})[id] || id; if (!PAGES.includes(id) && !/^history-(\d{4}-)?\d+$/.test(id) && !/^breakdown-\d+$/.test(id)) return;
   e.preventDefault();
   try { history.replaceState(null, "", "#"+id); } catch(err) {}
   showPage(id, true);
