@@ -299,7 +299,7 @@ table.mini tr.lucky td,table.mini tr.cursed td{background:transparent}
 .opp .none{font-family:var(--sans);font-size:14px;color:var(--muted);padding:6px 0}
 @media (max-width:520px){section{scroll-margin-top:150px}}
 /* header always dark, in both themes */
-header.site{background:#17140f;color:#f3eee2}
+header.site{background:#17140f;color:#f3eee2;width:100%}
 .brand{color:#f3eee2}
 .edline{color:#bfb6a3}
 /* history season switch + records */
@@ -1106,6 +1106,9 @@ document.addEventListener("click", e => {
   showPage(id, true);
 });
 window.addEventListener("hashchange", () => showPage(location.hash.slice(1), true));
+// iOS can keep the sticky header at its old width after rotating; force it to lay out again
+{ let rt; const relayout = () => { clearTimeout(rt); rt = setTimeout(() => { const hd = document.querySelector("header.site"); hd.style.display = "none"; void hd.offsetHeight; hd.style.display = ""; }, 200); };
+  window.addEventListener("orientationchange", relayout); window.addEventListener("resize", relayout); }
 showPage(location.hash.slice(1), false);
 
 $("res").innerHTML =[...weeks].sort((a,b)=>b-a).map(w=>`<div><h3>Week ${w}</h3>${L.games.filter(g=>g[0]===w).map(([_,a,sa,b,sb])=>{
